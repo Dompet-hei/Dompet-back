@@ -1,6 +1,6 @@
-package org.example;
+package org.jpa;
 
-import org.example.utils.ID;
+import org.jpa.utils.ID;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
