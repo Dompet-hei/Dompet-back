@@ -1,0 +1,2 @@
+ALTER TABLE "account"
+    ALTER COLUMN "is_active" SET DEFAULT FALSE;
