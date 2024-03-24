@@ -6,7 +6,7 @@ import org.dompet.model.Transfer;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TransferRepository {
+public interface TransferRepository extends BaseRepository<Transfer>{
   Transfer save(Transfer transfer);
 
   Optional<Transfer> findById(String id);

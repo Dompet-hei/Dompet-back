@@ -6,7 +6,7 @@ import org.dompet.model.Status;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface StatusRepository {
+public interface StatusRepository extends BaseRepository<Status>{
   Status save(Status status);
 
   Optional<Status> findById(String id);

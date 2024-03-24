@@ -6,7 +6,7 @@ import org.dompet.model.Account;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AccountRepository {
+public interface AccountRepository extends BaseRepository<Account>{
   Account save(Account account);
 
   Optional<Account> findById(String id);

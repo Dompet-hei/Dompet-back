@@ -6,7 +6,7 @@ import org.dompet.model.OperationCategory;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OperationCategoryRepository {
+public interface OperationCategoryRepository extends BaseRepository<OperationCategory>{
   OperationCategory save(OperationCategory operationCategory);
 
   Optional<OperationCategory> findById(String id);

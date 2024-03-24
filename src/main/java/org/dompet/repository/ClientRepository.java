@@ -6,7 +6,7 @@ import org.dompet.model.Client;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ClientRepository {
+public interface ClientRepository extends BaseRepository<Client>{
   Client save(Client client);
 
   Optional<Client> findById(String id);

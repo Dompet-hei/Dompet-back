@@ -6,7 +6,7 @@ import org.dompet.model.Statement;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface StatementRepository {
+public interface StatementRepository extends BaseRepository<Statement>{
   Statement save(Statement statement);
 
   Optional<Statement> findById(String id);

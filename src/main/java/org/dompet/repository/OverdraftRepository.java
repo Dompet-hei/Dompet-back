@@ -6,7 +6,7 @@ import org.dompet.model.Overdraft;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OverdraftRepository {
+public interface OverdraftRepository extends BaseRepository<Overdraft>{
   Overdraft save(Overdraft overdraft);
 
   Optional<Overdraft> findById(String id);

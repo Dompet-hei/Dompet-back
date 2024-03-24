@@ -6,7 +6,7 @@ import org.dompet.model.Transaction;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TransactionRepository {
+public interface TransactionRepository extends BaseRepository<Transaction>{
   Transaction save(Transaction transaction);
 
   Optional<Transaction> findById(String id);

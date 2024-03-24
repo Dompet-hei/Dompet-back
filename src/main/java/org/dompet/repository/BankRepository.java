@@ -6,7 +6,7 @@ import org.dompet.model.Bank;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BankRepository {
+public interface BankRepository extends BaseRepository<Bank>{
   Bank save(Bank bank);
 
   Optional<Bank> findById(String id);

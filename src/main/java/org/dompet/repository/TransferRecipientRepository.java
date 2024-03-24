@@ -7,7 +7,7 @@ import org.dompet.model.TransferRecipientId;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TransferRecipientRepository {
+public interface TransferRecipientRepository extends BaseRepository<TransferRecipient>{
   TransferRecipient save(TransferRecipient transferRecipient);
 
   Optional<TransferRecipient> findById(TransferRecipientId id);
