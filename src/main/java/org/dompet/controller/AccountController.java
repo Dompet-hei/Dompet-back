@@ -35,36 +35,27 @@ public class AccountController {
   public void deleteAccountById(@PathVariable String accountId) {
     accountService.deleteById(accountId);
   }
+  @GetMapping("/{accountId}/about")
+  public AccountView getAbout(@PathVariable String accountId) {
+    return accountService.findAbout(accountId);
+  }
 
   @GetMapping("/{accountId}/balance")
-  public ResponseEntity<String> getBalance(@PathVariable String accountId) {
-    return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
-        .body("Retrieving balance for account " + accountId + " is not implemented yet.");
+  public AccountBalance getBalance(@PathVariable String accountId) {
+    return accountService.findBalance(accountId);
   }
 
-  @GetMapping("/{accountId}/about")
-  public ResponseEntity<String> getAbout(@PathVariable String accountId) {
-    return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
-            .body("The about information for account " + accountId + " is not implemented yet.");
-  }
 
   // Transaction endpoints
   @GetMapping("/{accountId}/transactions")
-  public ResponseEntity<String> findAllTransactionsByAccountId(@PathVariable String accountId) {
-    return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
-        .body("Retrieving all transactions for account " + accountId + " is not implemented yet.");
+  public List<Transaction> findAllTransactionsByAccountId(@PathVariable String accountId) {
+    return accountService.findTransactions(accountId);
   }
 
   @GetMapping("/{accountId}/transactions/{transactionId}")
-  public ResponseEntity<String> findTransactionById(
+  public Transaction findTransactionByAccountId(
       @PathVariable String accountId, @PathVariable String transactionId) {
-    return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
-        .body(
-            "Retrieving transaction "
-                + transactionId
-                + " for account "
-                + accountId
-                + " is not implemented yet.");
+    return accountService.findTransaction(accountId, transactionId);
   }
 
   @PostMapping("/{accountId}/transactions")
@@ -112,21 +103,14 @@ public class AccountController {
 
   // Transfer endpoints
   @GetMapping("/{accountId}/transfers")
-  public ResponseEntity<String> findAllTransfersByAccountId(@PathVariable String accountId) {
-    return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
-        .body("Retrieving all transfers for account " + accountId + " is not implemented yet.");
+  public List<Transfer> findAllTransfersByAccountId(@PathVariable String accountId) {
+    return accountService.findTransfers(accountId);
   }
 
   @GetMapping("/{accountId}/transfers/{transferId}")
-  public ResponseEntity<String> findTransferById(
+  public Transfer findTransferByAccountId(
       @PathVariable String accountId, @PathVariable String transferId) {
-    return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
-        .body(
-            "Retrieving transfer "
-                + transferId
-                + " for account "
-                + accountId
-                + " is not implemented yet.");
+    return accountService.findTransfer(accountId, transferId);
   }
 
   @PostMapping("/{accountId}/transfers")
@@ -172,12 +156,14 @@ public class AccountController {
 
   // Overdraft endpoints
   @GetMapping("/{accountId}/overdraft")
-  public ResponseEntity<String> findOverdraftByAccountId(@PathVariable String accountId) {
-    return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
-        .body(
-            "Retrieving overdraft information for account "
-                + accountId
-                + " is not implemented yet.");
+  public List<Overdraft> findOverdrafts(@PathVariable String accountId) {
+    return accountService.findOverdrafts(accountId);
+  }
+
+  @GetMapping("/{accountId}/overdraft/{overdraftId}")
+  public Overdraft findOverdraftByAccountId(
+      @PathVariable String accountId, @PathVariable String overdraftId) {
+    return accountService.findOverdraft(accountId, overdraftId);
   }
 
   @PostMapping("/{accountId}/overdraft")

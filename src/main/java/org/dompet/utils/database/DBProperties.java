@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties("db")
 public class DBProperties {
-    private String url;
-    private String user;
-    private String password;
+  private String url;
+  private String user;
+  private String password;
 }
