@@ -14,4 +14,8 @@ public interface TransferRepository {
   List<Transfer> findAll();
 
   void deleteById(String id);
+
+  List<Transfer> findBySenderAccountId(String senderAccountId);
+
+  Transfer findBySenderAccountIdAndTransferId(String SenderAccountId, String transferId);
 }

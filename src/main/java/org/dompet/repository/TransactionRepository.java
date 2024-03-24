@@ -14,4 +14,8 @@ public interface TransactionRepository {
   List<Transaction> findAll();
 
   void deleteById(String id);
+
+  List<Transaction> findByAccountId(String accountId);
+
+  Transaction findByAccountIdAndTransactionId(String accountId, String transactionId);
 }

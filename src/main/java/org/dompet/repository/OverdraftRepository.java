@@ -14,4 +14,8 @@ public interface OverdraftRepository {
   List<Overdraft> findAll();
 
   void deleteById(String id);
+
+  List<Overdraft> findByAccountId(String accountId);
+
+  Overdraft findByAccountIdAndOverdraftId(String accountId, String overdraftId);
 }
