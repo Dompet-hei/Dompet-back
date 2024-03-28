@@ -1,7 +1,7 @@
 package org.dompet.jpa;
 
-import org.dompet.utils.DBConnection;
 import org.dompet.utils.annotations.Id;
+import org.dompet.utils.database.DBConnector;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -13,9 +13,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class CRUDOperationImpl<T> {
-    private Connection getConnection() {
-        return DBConnection.getConnection();
+    private final DBConnector dbConnector;
+
+    public CRUDOperationImpl(DBConnector dbConnector) {
+        this.dbConnector = dbConnector;
     }
+
+    private Connection getConnection() {
+        try {
+            return dbConnector.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private String getActualClassName(){
         return "\"%s\"".formatted(getActualClass().getSimpleName());
     }
@@ -110,7 +121,6 @@ public abstract class CRUDOperationImpl<T> {
                     index++;
                 }
             };
-            pr.executeUpdate();
         } catch (SQLException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e){
             throw new RuntimeException(e);
         }
@@ -131,23 +141,22 @@ public abstract class CRUDOperationImpl<T> {
             int count = checkResult.getInt(1);
 
             if (count > 0) {
-                String updateSql = createSQLUpdateQuery();
-                PreparedStatement updateStmt = getConnection().prepareStatement(updateSql);
+                String saveSql = createSQLsaveQuery();
+                PreparedStatement saveStmt = getConnection().prepareStatement(saveSql);
                 int index = 1;
                 for (Field field : getActualClass().getDeclaredFields()) {
                     if (!field.isAnnotationPresent(Id.class)) {
                         Method getter = getActualClass().getDeclaredMethod("get" + Character.toUpperCase(field.getName().charAt(0)) + field.getName().substring(1));
                         Object value = getter.invoke(entity);
                         if (value instanceof String) {
-                            updateStmt.setString(index, (String) value);
+                            saveStmt.setString(index, (String) value);
                         } else if (value instanceof Integer) {
-                            updateStmt.setInt(index, (Integer) value);
+                            saveStmt.setInt(index, (Integer) value);
                         }
                         index++;
                     }
                 }
-                updateStmt.setInt(index, id);
-                updateStmt.executeUpdate();
+                saveStmt.setInt(index, id);
             } else {
                 insert(entity, true);
             }
@@ -157,8 +166,8 @@ public abstract class CRUDOperationImpl<T> {
         return entity;
     }
 
-    private String createSQLUpdateQuery() {
-        StringBuilder sql = new StringBuilder("UPDATE " + getActualClassName() + " SET ");
+    private String createSQLsaveQuery() {
+        StringBuilder sql = new StringBuilder("save " + getActualClassName() + " SET ");
         List<String> columns = Arrays
                 .stream(getActualClass().getDeclaredFields())
                 .filter(field -> !field.isAnnotationPresent(Id.class))
@@ -176,7 +185,6 @@ public abstract class CRUDOperationImpl<T> {
             String deleteSql = "DELETE FROM " + getActualClassName() + " WHERE id = ?";
             PreparedStatement deleteStmt = getConnection().prepareStatement(deleteSql);
             deleteStmt.setInt(1, id);
-            deleteStmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
