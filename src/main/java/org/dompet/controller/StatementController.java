@@ -21,7 +21,7 @@ public class StatementController {
 
   @GetMapping("/{id}")
   public Optional<Statement> findStatementById(@PathVariable String id) {
-    return statementService.findById(id);
+    return Optional.ofNullable(statementService.findById(id));
   }
 
   @PutMapping

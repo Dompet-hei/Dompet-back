@@ -23,7 +23,7 @@ public class TransferRecipientController {
   @GetMapping("/{id}")
   public Optional<TransferRecipient> findByIdTransferRecipient(
       @PathVariable TransferRecipientId id) {
-    return transferRecipientService.findById(id);
+    return Optional.ofNullable(transferRecipientService.findById(String.valueOf(id)));
   }
 
   @PutMapping
@@ -33,6 +33,6 @@ public class TransferRecipientController {
 
   @DeleteMapping("/{id}")
   public void deleteTransferRecipientById(@PathVariable TransferRecipientId id) {
-    transferRecipientService.deleteById(id);
+    transferRecipientService.deleteById(String.valueOf(id));
   }
 }

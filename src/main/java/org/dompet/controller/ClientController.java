@@ -21,7 +21,7 @@ public class ClientController {
 
   @GetMapping("/{id}")
   public Optional<Client> findClientById(@PathVariable String id) {
-    return clientService.findById(id);
+    return Optional.ofNullable(clientService.findById(id));
   }
 
   @PutMapping

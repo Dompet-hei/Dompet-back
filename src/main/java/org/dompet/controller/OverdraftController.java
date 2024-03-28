@@ -21,7 +21,7 @@ public class OverdraftController {
 
   @GetMapping("/{id}")
   public Optional<Overdraft> findOverdraftById(@PathVariable String id) {
-    return overdraftService.findById(id);
+    return Optional.ofNullable(overdraftService.findById(id));
   }
 
   @PutMapping

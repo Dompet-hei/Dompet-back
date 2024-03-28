@@ -21,7 +21,7 @@ public class TransferController {
 
   @GetMapping("/{id}")
   public Optional<Transfer> findTransferById(@PathVariable String id) {
-    return transferService.findById(id);
+    return Optional.ofNullable(transferService.findById(id));
   }
 
   @PutMapping

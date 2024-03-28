@@ -21,7 +21,7 @@ public class TransactionController {
 
   @GetMapping("/{id}")
   public Optional<Transaction> findTransactionById(@PathVariable String id) {
-    return transactionService.findById(id);
+    return Optional.ofNullable(transactionService.findById(id));
   }
 
   @PutMapping

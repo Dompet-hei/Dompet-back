@@ -21,7 +21,7 @@ public class BankController {
 
   @GetMapping("/{id}")
   public Optional<Bank> findBankById(@PathVariable String id) {
-    return bankService.findById(id);
+    return Optional.ofNullable(bankService.findById(id));
   }
 
   @PutMapping
@@ -31,6 +31,6 @@ public class BankController {
 
   @DeleteMapping("/{id}")
   public void deleteBankById(@PathVariable String id) {
-    bankService.deleteById(id);
+    bankService.deleteById(Integer.valueOf(id));
   }
 }

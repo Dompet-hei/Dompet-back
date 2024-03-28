@@ -21,7 +21,7 @@ public class StatusController {
 
   @GetMapping("/{id}")
   public Optional<Status> findStatusById(@PathVariable String id) {
-    return statusService.findById(id);
+    return Optional.ofNullable(statusService.findById(id));
   }
 
   @PutMapping

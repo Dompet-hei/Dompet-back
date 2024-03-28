@@ -23,7 +23,7 @@ public class AccountController {
 
   @GetMapping("/{accountId}")
   public Optional<Account> findAccountById(@PathVariable String accountId) {
-    return accountService.findById(accountId);
+    return Optional.ofNullable(accountService.findById(accountId));
   }
 
   @PutMapping
@@ -75,7 +75,7 @@ public class AccountController {
   }
 
   @PutMapping("/{accountId}/transactions/{transactionId}")
-  public ResponseEntity<String> updateTransaction(
+  public ResponseEntity<String> saveTransaction(
       @PathVariable String accountId, @PathVariable String transactionId) {
     return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
         .body(
@@ -87,7 +87,7 @@ public class AccountController {
   }
 
   @PutMapping("/{accountId}/transactions/{transactionId}/category")
-  public ResponseEntity<String> updateTransactionCategory(
+  public ResponseEntity<String> saveTransactionCategory(
       @PathVariable String accountId, @PathVariable String transactionId) {
     return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
         .body(
@@ -137,7 +137,7 @@ public class AccountController {
   }
 
   @PutMapping("/{accountId}/transfers/{transferId}")
-  public ResponseEntity<String> updateTransfer(
+  public ResponseEntity<String> saveTransfer(
       @PathVariable String accountId, @PathVariable String transferId) {
     return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
         .body(
@@ -188,7 +188,7 @@ public class AccountController {
   }
 
   @PutMapping("/{accountId}/overdraft")
-  public ResponseEntity<String> updateOverdraft(@PathVariable String accountId) {
+  public ResponseEntity<String> saveOverdraft(@PathVariable String accountId) {
     return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
         .body(
             "Updating overdraft information for account " + accountId + " is not implemented yet.");

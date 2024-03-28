@@ -21,7 +21,7 @@ public class OperationCategoryController {
 
   @GetMapping("/{id}")
   public Optional<OperationCategory> findOperationCategoryById(@PathVariable String id) {
-    return operationCategoryService.findById(id);
+    return Optional.ofNullable(operationCategoryService.findById(id));
   }
 
   @PutMapping
