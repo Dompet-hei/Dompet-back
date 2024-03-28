@@ -1,32 +1,32 @@
 package org.dompet.service;
 
 import java.util.List;
-import java.util.Optional;
+
 import org.dompet.model.Client;
-import org.dompet.repository.ClientRepository;
+import org.dompet.repository.ClientsRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ClientService {
-  public final ClientRepository clientRepository;
+  private final ClientsRepository clientsRepository = new ClientsRepository();
 
-  public ClientService(ClientRepository clientRepository) {
-    this.clientRepository = clientRepository;
+  public void createClient(Client client) {
+    clientsRepository.insert(client, true);
   }
 
-  public Client save(Client client) {
-    return clientRepository.save(client);
+  public Client getClientById(Integer id) {
+    return clientsRepository.getById(id);
   }
 
-  public Optional<Client> findById(String id) {
-    return clientRepository.findById(id);
+  public List<Client> getAllClients(){
+    return clientsRepository.getAll();
+  };
+
+  public void updateClient(Client client) {
+    clientsRepository.save(client);
   }
 
-  public List<Client> findAll() {
-    return clientRepository.findAll();
-  }
-
-  public void deleteById(String id) {
-    clientRepository.deleteById(id);
+  public void deleteClientById(Integer id) {
+    clientsRepository.deleteById(id);
   }
 }

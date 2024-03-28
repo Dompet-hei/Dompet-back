@@ -1,32 +1,32 @@
 package org.dompet.service;
 
 import java.util.List;
-import java.util.Optional;
+
 import org.dompet.model.Overdraft;
 import org.dompet.repository.OverdraftRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class OverdraftService {
-  public final OverdraftRepository overdraftRepository;
+  private final OverdraftRepository overdraftRepository= new OverdraftRepository();
 
-  public OverdraftService(OverdraftRepository overdraftRepository) {
-    this.overdraftRepository = overdraftRepository;
+  public void createBank(Overdraft overdraft) {
+    overdraftRepository.insert(overdraft, true);
   }
 
-  public Overdraft save(Overdraft overdraft) {
-    return overdraftRepository.save(overdraft);
+  public Overdraft getOverdraftById(Integer id) {
+    return overdraftRepository.getById(id);
   }
 
-  public Optional<Overdraft> findById(String id) {
-    return overdraftRepository.findById(id);
+  public List<Overdraft> getAllOverdrafts() {
+    return overdraftRepository.getAll();
   }
 
-  public List<Overdraft> findAll() {
-    return overdraftRepository.findAll();
+  public void updateOverdraft(Overdraft overdraft) {
+    overdraftRepository.save(overdraft);
   }
 
-  public void deleteById(String id) {
+  public void deleteOverdraftById(Integer id) {
     overdraftRepository.deleteById(id);
   }
 }

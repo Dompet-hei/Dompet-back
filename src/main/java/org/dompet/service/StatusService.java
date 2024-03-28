@@ -1,32 +1,32 @@
 package org.dompet.service;
 
 import java.util.List;
-import java.util.Optional;
+
 import org.dompet.model.Status;
 import org.dompet.repository.StatusRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class StatusService {
-  public final StatusRepository statusRepository;
+  private final StatusRepository statusRepository= new StatusRepository();
 
-  public StatusService(StatusRepository statusRepository) {
-    this.statusRepository = statusRepository;
+  public void createStatus(Status status) {
+    statusRepository.insert(status, true);
   }
 
-  public Status save(Status status) {
-    return statusRepository.save(status);
+  public Status getStatusById(Integer id) {
+    return statusRepository.getById(id);
   }
 
-  public Optional<Status> findById(String id) {
-    return statusRepository.findById(id);
+  public List<Status> getAllStatuses() {
+    return statusRepository.getAll();
   }
 
-  public List<Status> findAll() {
-    return statusRepository.findAll();
+  public void updateStatus(Status status) {
+    statusRepository.save(status);
   }
 
-  public void deleteById(String id) {
+  public void deleteStatusById(Integer id) {
     statusRepository.deleteById(id);
   }
 }

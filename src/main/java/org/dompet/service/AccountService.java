@@ -1,32 +1,31 @@
 package org.dompet.service;
 
 import java.util.List;
-import java.util.Optional;
 import org.dompet.model.Account;
 import org.dompet.repository.AccountRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AccountService {
-  public final AccountRepository accountRepository;
+  private final AccountRepository accountRepository = new AccountRepository();
 
-  public AccountService(AccountRepository accountRepository) {
-    this.accountRepository = accountRepository;
+  public void createAccount(Account account) {
+    accountRepository.insert(account, true);
   }
 
-  public Account save(Account account) {
-    return accountRepository.save(account);
+  public Account getAccountById(Integer id) {
+    return accountRepository.getById(id);
   }
 
-  public Optional<Account> findById(String id) {
-    return accountRepository.findById(id);
+  public List<Account> getAllAccounts() {
+    return accountRepository.getAll();
   }
 
-  public List<Account> findAll() {
-    return accountRepository.findAll();
+  public void updateAccount(Account account) {
+    accountRepository.save(account);
   }
 
-  public void deleteById(String id) {
+  public void deleteAccountById(Integer id) {
     accountRepository.deleteById(id);
   }
 }

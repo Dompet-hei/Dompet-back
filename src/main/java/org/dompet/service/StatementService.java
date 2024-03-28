@@ -1,32 +1,32 @@
 package org.dompet.service;
 
 import java.util.List;
-import java.util.Optional;
+
 import org.dompet.model.Statement;
 import org.dompet.repository.StatementRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class StatementService {
-  public final StatementRepository statementRepository;
+  private final StatementRepository statementRepository= new StatementRepository();
 
-  public StatementService(StatementRepository statementRepository) {
-    this.statementRepository = statementRepository;
+  public void createStatement(Statement statement) {
+    statementRepository.insert(statement, true);
   }
 
-  public Statement save(Statement statement) {
-    return statementRepository.save(statement);
+  public Statement getStatementById(Integer id) {
+    return statementRepository.getById(id);
   }
 
-  public Optional<Statement> findById(String id) {
-    return statementRepository.findById(id);
+  public List<Statement> getAllStatements() {
+    return statementRepository.getAll();
   }
 
-  public List<Statement> findAll() {
-    return statementRepository.findAll();
+  public void updateStatement(Statement statement) {
+    statementRepository.save(statement);
   }
 
-  public void deleteById(String id) {
+  public void deleteStatementById(Integer id) {
     statementRepository.deleteById(id);
   }
 }

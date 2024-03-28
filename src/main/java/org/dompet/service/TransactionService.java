@@ -2,31 +2,32 @@ package org.dompet.service;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.dompet.model.Transaction;
 import org.dompet.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TransactionService {
-  public final TransactionRepository transactionRepository;
+  private final TransactionRepository transactionRepository= new TransactionRepository();
 
-  public TransactionService(TransactionRepository transactionRepository) {
-    this.transactionRepository = transactionRepository;
+  public void createTransaction(Transaction transaction) {
+    transactionRepository.insert(transaction, true);
   }
 
-  public Transaction save(Transaction transaction) {
-    return transactionRepository.save(transaction);
+  public Transaction getTransactionById(Integer id) {
+    return transactionRepository.getById(id);
   }
 
-  public Optional<Transaction> findById(String id) {
-    return transactionRepository.findById(id);
+  public List<Transaction> getAllTransactions() {
+    return transactionRepository.getAll();
   }
 
-  public List<Transaction> findAll() {
-    return transactionRepository.findAll();
+  public void updateTransaction(Transaction transaction) {
+    transactionRepository.save(transaction);
   }
 
-  public void deleteById(String id) {
+  public void deleteTransactionById(Integer id) {
     transactionRepository.deleteById(id);
   }
 }

@@ -1,32 +1,32 @@
 package org.dompet.service;
 
 import java.util.List;
-import java.util.Optional;
+
 import org.dompet.model.OperationType;
 import org.dompet.repository.OperationTypeRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class OperationTypeService {
-  public final OperationTypeRepository operationTypeRepository;
+  private final OperationTypeRepository operationTypeRepository= new OperationTypeRepository();
 
-  public OperationTypeService(OperationTypeRepository operationTypeRepository) {
-    this.operationTypeRepository = operationTypeRepository;
+  public void createOperationType(OperationType operationType) {
+    operationTypeRepository.insert(operationType, true);
   }
 
-  public OperationType save(OperationType operationType) {
-    return operationTypeRepository.save(operationType);
+  public OperationType getBankById(Integer id) {
+    return operationTypeRepository.getById(id);
   }
 
-  public Optional<OperationType> findById(String id) {
-    return operationTypeRepository.findById(id);
+  public List<OperationType> getAllOperationTypes() {
+    return operationTypeRepository.getAll();
   }
 
-  public List<OperationType> findAll() {
-    return operationTypeRepository.findAll();
+  public void updateBank(OperationType operationType) {
+    operationTypeRepository.save(operationType);
   }
 
-  public void deleteById(String id) {
+  public void deleteBankById(Integer id) {
     operationTypeRepository.deleteById(id);
   }
 }

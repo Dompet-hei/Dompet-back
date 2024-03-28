@@ -1,33 +1,32 @@
 package org.dompet.service;
 
 import java.util.List;
-import java.util.Optional;
+
 import org.dompet.model.TransferRecipient;
-import org.dompet.model.TransferRecipientId;
 import org.dompet.repository.TransferRecipientRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TransferRecipientService {
-  public final TransferRecipientRepository transferRecipientRepository;
+  private final TransferRecipientRepository transfertRecipientRepository= new TransferRecipientRepository();
 
-  public TransferRecipientService(TransferRecipientRepository transferRecipientRepository) {
-    this.transferRecipientRepository = transferRecipientRepository;
+  public void createTransferRecipient(TransferRecipient transfertRecipient) {
+    transfertRecipientRepository.insert(transfertRecipient, true);
   }
 
-  public TransferRecipient save(TransferRecipient transferRecipient) {
-    return transferRecipientRepository.save(transferRecipient);
+  public TransferRecipient getTransferRecipientById(Integer id) {
+    return transfertRecipientRepository.getById(id);
   }
 
-  public Optional<TransferRecipient> findById(TransferRecipientId id) {
-    return transferRecipientRepository.findById(id);
+  public List<TransferRecipient> getAllTransferRecipients() {
+    return transfertRecipientRepository.getAll();
   }
 
-  public List<TransferRecipient> findAll() {
-    return transferRecipientRepository.findAll();
+  public void updateTransferRecipient(TransferRecipient transfertRecipient) {
+    transfertRecipientRepository.save(transfertRecipient);
   }
 
-  public void deleteById(TransferRecipientId id) {
-    transferRecipientRepository.deleteById(id);
+  public void deleteTransferRecipientById(Integer id) {
+    transfertRecipientRepository.deleteById(id);
   }
 }
