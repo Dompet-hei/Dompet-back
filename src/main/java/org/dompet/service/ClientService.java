@@ -8,25 +8,26 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ClientService {
-  private final ClientsRepository clientsRepository = new ClientsRepository();
+  private final ClientsRepository clientsRepository = new ClientsRepository(null);
 
   public void createClient(Client client) {
     clientsRepository.insert(client, true);
   }
 
-  public Client getClientById(Integer id) {
-    return clientsRepository.getById(id);
+  public Client findById(String id) {
+    return clientsRepository.getById(Integer.valueOf(id));
   }
 
-  public List<Client> getAllClients(){
+  public List<Client> findAll(){
     return clientsRepository.getAll();
   };
 
-  public void updateClient(Client client) {
+  public Client save(Client client) {
     clientsRepository.save(client);
+    return client;
   }
 
-  public void deleteClientById(Integer id) {
-    clientsRepository.deleteById(id);
+  public void deleteById(String id) {
+    clientsRepository.deleteById(Integer.valueOf(id));
   }
 }
