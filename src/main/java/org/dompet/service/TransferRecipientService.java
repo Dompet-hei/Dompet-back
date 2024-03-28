@@ -8,25 +8,22 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TransferRecipientService {
-  private final TransferRecipientRepository transfertRecipientRepository= new TransferRecipientRepository();
+  private final TransferRecipientRepository transferRecipientRepository= new TransferRecipientRepository(null);
 
-  public void createTransferRecipient(TransferRecipient transfertRecipient) {
-    transfertRecipientRepository.insert(transfertRecipient, true);
+  public TransferRecipient findById(String id) {
+    return transferRecipientRepository.getById(Integer.valueOf(id));
   }
 
-  public TransferRecipient getTransferRecipientById(Integer id) {
-    return transfertRecipientRepository.getById(id);
+  public List<TransferRecipient> findAll() {
+    return transferRecipientRepository.getAll();
   }
 
-  public List<TransferRecipient> getAllTransferRecipients() {
-    return transfertRecipientRepository.getAll();
+  public TransferRecipient save(TransferRecipient transferRecipient) {
+    transferRecipientRepository.save(transferRecipient);
+    return transferRecipient;
   }
 
-  public void updateTransferRecipient(TransferRecipient transfertRecipient) {
-    transfertRecipientRepository.save(transfertRecipient);
-  }
-
-  public void deleteTransferRecipientById(Integer id) {
-    transfertRecipientRepository.deleteById(id);
+  public void deleteById(String id) {
+    transferRecipientRepository.deleteById(Integer.valueOf(id));
   }
 }

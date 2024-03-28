@@ -8,25 +8,22 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class OperationTypeService {
-  private final OperationTypeRepository operationTypeRepository= new OperationTypeRepository();
+  private final OperationTypeRepository operationTypeRepository= new OperationTypeRepository(null);
 
-  public void createOperationType(OperationType operationType) {
-    operationTypeRepository.insert(operationType, true);
+  public OperationType findById(String id) {
+    return operationTypeRepository.getById(Integer.valueOf(id));
   }
 
-  public OperationType getBankById(Integer id) {
-    return operationTypeRepository.getById(id);
-  }
-
-  public List<OperationType> getAllOperationTypes() {
+  public List<OperationType> findAll() {
     return operationTypeRepository.getAll();
   }
 
-  public void updateBank(OperationType operationType) {
+  public OperationType save(OperationType operationType) {
     operationTypeRepository.save(operationType);
+    return operationType;
   }
 
-  public void deleteBankById(Integer id) {
-    operationTypeRepository.deleteById(id);
+  public void deleteById(String id) {
+    operationTypeRepository.deleteById(Integer.valueOf(id));
   }
 }

@@ -7,25 +7,22 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AccountService {
-  private final AccountRepository accountRepository = new AccountRepository();
+  private final AccountRepository accountRepository = new AccountRepository(null);
 
-  public void createAccount(Account account) {
-    accountRepository.insert(account, true);
+  public Account findById(String id) {
+    return accountRepository.getById(Integer.valueOf(id));
   }
 
-  public Account getAccountById(Integer id) {
-    return accountRepository.getById(id);
-  }
-
-  public List<Account> getAllAccounts() {
+  public List<Account> findAll() {
     return accountRepository.getAll();
   }
 
-  public void updateAccount(Account account) {
+  public Account save(Account account) {
     accountRepository.save(account);
+    return account;
   }
 
-  public void deleteAccountById(Integer id) {
-    accountRepository.deleteById(id);
+  public void deleteById(String id) {
+    accountRepository.deleteById(Integer.valueOf(id));
   }
 }

@@ -8,25 +8,22 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class OperationCategoryService {
-  private final OperationCategoryRepository operationCategoryRepository = new OperationCategoryRepository();
+  private final OperationCategoryRepository operationCategoryRepository = new OperationCategoryRepository(null);
 
-  public void createOperationCategory(OperationCategory operationCategory) {
-    operationCategoryRepository.insert(operationCategory, true);
+  public OperationCategory findById(String id) {
+    return operationCategoryRepository.getById(Integer.valueOf(id));
   }
 
-  public OperationCategory getOperationCategoryById(Integer id) {
-    return operationCategoryRepository.getById(id);
-  }
-
-  public List<OperationCategory> getAllOperationCategory() {
+  public List<OperationCategory> findAll() {
     return operationCategoryRepository.getAll();
   }
 
-  public void updateOperationCategory(OperationCategory operationCategory) {
+  public OperationCategory save(OperationCategory operationCategory) {
     operationCategoryRepository.save(operationCategory);
+    return operationCategory;
   }
 
-  public void deleteOperationCategoryById(Integer id) {
-    operationCategoryRepository.deleteById(id);
+  public void deleteById(String id) {
+    operationCategoryRepository.deleteById(Integer.valueOf(id));
   }
 }

@@ -8,25 +8,22 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class OverdraftService {
-  private final OverdraftRepository overdraftRepository= new OverdraftRepository();
+  private final OverdraftRepository overdraftRepository= new OverdraftRepository(null);
 
-  public void createBank(Overdraft overdraft) {
-    overdraftRepository.insert(overdraft, true);
+  public Overdraft findById(String id) {
+    return overdraftRepository.getById(Integer.valueOf(id));
   }
 
-  public Overdraft getOverdraftById(Integer id) {
-    return overdraftRepository.getById(id);
-  }
-
-  public List<Overdraft> getAllOverdrafts() {
+  public List<Overdraft> findAll() {
     return overdraftRepository.getAll();
   }
 
-  public void updateOverdraft(Overdraft overdraft) {
+  public Overdraft save(Overdraft overdraft) {
     overdraftRepository.save(overdraft);
+    return overdraft;
   }
 
-  public void deleteOverdraftById(Integer id) {
-    overdraftRepository.deleteById(id);
+  public void deleteById(String id) {
+    overdraftRepository.deleteById(Integer.valueOf(id));
   }
 }

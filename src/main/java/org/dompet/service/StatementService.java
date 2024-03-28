@@ -8,25 +8,22 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class StatementService {
-  private final StatementRepository statementRepository= new StatementRepository();
+  private final StatementRepository statementRepository= new StatementRepository(null);
 
-  public void createStatement(Statement statement) {
-    statementRepository.insert(statement, true);
+  public Statement findById(String id) {
+    return statementRepository.getById(Integer.valueOf(id));
   }
 
-  public Statement getStatementById(Integer id) {
-    return statementRepository.getById(id);
-  }
-
-  public List<Statement> getAllStatements() {
+  public List<Statement> findAll() {
     return statementRepository.getAll();
   }
 
-  public void updateStatement(Statement statement) {
+  public Statement save(Statement statement) {
     statementRepository.save(statement);
+    return statement;
   }
 
-  public void deleteStatementById(Integer id) {
-    statementRepository.deleteById(id);
+  public void deleteById(String id) {
+    statementRepository.deleteById(Integer.valueOf(id));
   }
 }

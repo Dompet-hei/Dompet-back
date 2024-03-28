@@ -8,25 +8,22 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class StatusService {
-  private final StatusRepository statusRepository= new StatusRepository();
+  private final StatusRepository statusRepository= new StatusRepository(null);
 
-  public void createStatus(Status status) {
-    statusRepository.insert(status, true);
+  public Status findById(String id) {
+    return statusRepository.getById(Integer.valueOf(id));
   }
 
-  public Status getStatusById(Integer id) {
-    return statusRepository.getById(id);
-  }
-
-  public List<Status> getAllStatuses() {
+  public List<Status> findAll() {
     return statusRepository.getAll();
   }
 
-  public void updateStatus(Status status) {
+  public Status save(Status status) {
     statusRepository.save(status);
+    return status;
   }
 
-  public void deleteStatusById(Integer id) {
-    statusRepository.deleteById(id);
+  public void deleteById(String id) {
+    statusRepository.deleteById(Integer.valueOf(id));
   }
 }

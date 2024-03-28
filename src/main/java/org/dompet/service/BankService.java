@@ -8,25 +8,22 @@ import java.util.List;
 
 @Service
 public class BankService {
-  private final BankRepository bankRepository= new BankRepository();
+  private final BankRepository bankRepository= new BankRepository(null);
 
-  public void createBank(Bank bank) {
-    bankRepository.insert(bank, true);
+  public Bank findById(String id) {
+    return bankRepository.getById(Integer.valueOf(id));
   }
 
-  public Bank getBankById(Integer id) {
-    return bankRepository.getById(id);
-  }
-
-  public List<Bank> getAllBanks() {
+  public List<Bank> findAll() {
     return bankRepository.getAll();
   }
 
-  public void updateBank(Bank bank) {
+  public Bank save(Bank bank) {
     bankRepository.save(bank);
+    return bank;
   }
 
-  public void deleteBankById(Integer id) {
+  public void deleteById(Integer id) {
     bankRepository.deleteById(id);
   }
 }
