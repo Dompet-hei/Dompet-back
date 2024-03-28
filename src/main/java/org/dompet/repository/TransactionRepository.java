@@ -1,17 +1,11 @@
 package org.dompet.repository;
 
-import java.util.List;
-import java.util.Optional;
+import org.dompet.jpa.CRUDOperationImpl;
 import org.dompet.model.Transaction;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface TransactionRepository extends BaseRepository<Transaction>{
-  Transaction save(Transaction transaction);
-
-  Optional<Transaction> findById(String id);
-
-  List<Transaction> findAll();
-
-  void deleteById(String id);
+public class TransactionRepository extends CRUDOperationImpl<Transaction> {
+    @Override
+    protected Class<Transaction> getActualClass() {
+        return Transaction.class;
+    }
 }

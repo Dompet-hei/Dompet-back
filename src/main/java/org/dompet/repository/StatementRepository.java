@@ -1,17 +1,11 @@
 package org.dompet.repository;
 
-import java.util.List;
-import java.util.Optional;
+import org.dompet.jpa.CRUDOperationImpl;
 import org.dompet.model.Statement;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface StatementRepository extends BaseRepository<Statement>{
-  Statement save(Statement statement);
-
-  Optional<Statement> findById(String id);
-
-  List<Statement> findAll();
-
-  void deleteById(String id);
+public class StatementRepository extends CRUDOperationImpl<Statement> {
+    @Override
+    protected Class<Statement> getActualClass() {
+        return Statement.class;
+    }
 }

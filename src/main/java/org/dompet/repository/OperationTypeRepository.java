@@ -1,17 +1,11 @@
 package org.dompet.repository;
 
-import java.util.List;
-import java.util.Optional;
+import org.dompet.jpa.CRUDOperationImpl;
 import org.dompet.model.OperationType;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface OperationTypeRepository extends BaseRepository<OperationType>{
-  OperationType save(OperationType operationType);
-
-  Optional<OperationType> findById(String id);
-
-  List<OperationType> findAll();
-
-  void deleteById(String id);
+public class OperationTypeRepository extends CRUDOperationImpl<OperationType> {
+    @Override
+    protected Class<OperationType> getActualClass() {
+        return OperationType.class;
+    }
 }
