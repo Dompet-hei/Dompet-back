@@ -9,6 +9,7 @@ import org.dompet.utils.annotations.Model;
 
 @Builder
 @Data
+@AllArgsConstructor
 @Model(table = "account")
 public class Account {
   @Id
