@@ -7,6 +7,7 @@ import org.dompet.utils.annotations.Model;
 
 @Builder
 @Data
+@AllArgsConstructor
 @Model(table = "status")
 public class Status {
   @Id

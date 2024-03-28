@@ -7,9 +7,11 @@ import org.dompet.utils.annotations.Model;
 
 @Builder
 @Data
+@AllArgsConstructor
 @Model(table = "transfer_recipient")
 public class TransferRecipient {
-  @Id private TransferRecipientId id;
+  @Id
+  private TransferRecipientId id;
 
   @Column(name = "transfer_id")
   private Transfer transferId;

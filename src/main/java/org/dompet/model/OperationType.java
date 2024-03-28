@@ -7,6 +7,7 @@ import org.dompet.utils.annotations.Model;
 
 @Builder
 @Data
+@AllArgsConstructor
 @Model(table = "operation_type")
 public class OperationType {
   @Id

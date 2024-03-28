@@ -9,7 +9,7 @@ import org.dompet.utils.annotations.Id;
 import org.dompet.utils.annotations.Model;
 
 @Builder
-@Data
+@Data@AllArgsConstructor
 @Model(table = "transfer")
 public class Transfer {
   @Id
