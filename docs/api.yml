@@ -88,7 +88,7 @@ paths:
     put:
       tags:
         - Clients
-      operationId: updateClientById
+      operationId: saveClientById
       parameters:
         - in: path
           name: id
@@ -103,7 +103,7 @@ paths:
               $ref: '#/components/schemas/Client'
       responses:
         '200':
-          description: Client updated successfully
+          description: Client saved successfully
           content:
             application/json:
               schema:
@@ -244,7 +244,7 @@ paths:
     put:
       tags:
         - Account
-      operationId: updateAccount
+      operationId: saveAccount
       parameters:
         - in: path
           name: id
@@ -259,7 +259,7 @@ paths:
               $ref: '#/components/schemas/Account'
       responses:
         '200':
-          description: Update successfully
+          description: save successfully
           content:
             application/json:
               schema:
@@ -549,8 +549,8 @@ paths:
     put:
       tags:
         - Transaction
-      summary: update transaction by id
-      operationId: updateTransactionById
+      summary: save transaction by id
+      operationId: saveTransactionById
       parameters:
         - in: path
           name: id
@@ -565,7 +565,7 @@ paths:
               $ref: '#/components/schemas/Transaction'
       responses:
         '200':
-          description: update successfully
+          description: save successfully
           content:
             application/json:
               schema:
