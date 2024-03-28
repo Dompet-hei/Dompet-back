@@ -1,32 +1,32 @@
 package org.dompet.service;
 
-import java.util.List;
-import java.util.Optional;
 import org.dompet.model.Bank;
 import org.dompet.repository.BankRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BankService {
-  public final BankRepository bankRepository;
+  private final BankRepository bankRepository= new BankRepository();
 
-  public BankService(BankRepository BankRepository) {
-    this.bankRepository = BankRepository;
+  public void createBank(Bank bank) {
+    bankRepository.insert(bank, true);
   }
 
-  public Bank save(Bank Bank) {
-    return bankRepository.save(Bank);
+  public Bank getBankById(Integer id) {
+    return bankRepository.getById(id);
   }
 
-  public Optional<Bank> findById(String id) {
-    return bankRepository.findById(id);
+  public List<Bank> getAllBanks() {
+    return bankRepository.getAll();
   }
 
-  public List<Bank> findAll() {
-    return bankRepository.findAll();
+  public void updateBank(Bank bank) {
+    bankRepository.save(bank);
   }
 
-  public void deleteById(String id) {
+  public void deleteBankById(Integer id) {
     bankRepository.deleteById(id);
   }
 }
