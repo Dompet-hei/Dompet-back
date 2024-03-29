@@ -31,6 +31,6 @@ public class BankController {
 
   @DeleteMapping("/{id}")
   public void deleteBankById(@PathVariable String id) {
-    bankService.deleteById(Integer.valueOf(id));
+    bankService.deleteById(id);
   }
 }
