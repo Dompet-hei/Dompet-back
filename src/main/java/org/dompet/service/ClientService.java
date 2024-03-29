@@ -10,12 +10,8 @@ import org.springframework.stereotype.Service;
 public class ClientService {
   private final ClientsRepository clientsRepository = new ClientsRepository(null);
 
-  public void createClient(Client client) {
-    clientsRepository.insert(client, true);
-  }
-
   public Client findById(String id) {
-    return clientsRepository.getById(Integer.valueOf(id));
+    return clientsRepository.getById(id);
   }
 
   public List<Client> findAll(){
@@ -28,6 +24,6 @@ public class ClientService {
   }
 
   public void deleteById(String id) {
-    clientsRepository.deleteById(Integer.valueOf(id));
+    clientsRepository.deleteById(id);
   }
 }
