@@ -11,7 +11,7 @@ public class TransactionService {
   private final TransactionRepository transactionRepository= new TransactionRepository(null);
 
   public Transaction findById(String id) {
-    return transactionRepository.getById(Integer.valueOf(id));
+    return transactionRepository.getById(id);
   }
 
   public List<Transaction> findAll() {
@@ -24,6 +24,6 @@ public class TransactionService {
   }
 
   public void deleteById(String id) {
-    transactionRepository.deleteById(Integer.valueOf(id));
+    transactionRepository.deleteById(id);
   }
 }

@@ -11,7 +11,7 @@ public class TransferService {
   private final TransferRepository transferRepository= new TransferRepository(null);
 
   public Transfer findById(String id) {
-    return transferRepository.getById(Integer.valueOf(id));
+    return transferRepository.getById(id);
   }
 
   public List<Transfer> findAll() {
@@ -24,6 +24,6 @@ public class TransferService {
   }
 
   public void deleteById(String id) {
-    transferRepository.deleteById(Integer.valueOf(id));
+    transferRepository.deleteById(id);
   }
 }

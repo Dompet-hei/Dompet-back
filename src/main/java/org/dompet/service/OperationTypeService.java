@@ -11,7 +11,7 @@ public class OperationTypeService {
   private final OperationTypeRepository operationTypeRepository= new OperationTypeRepository(null);
 
   public OperationType findById(String id) {
-    return operationTypeRepository.getById(Integer.valueOf(id));
+    return operationTypeRepository.getById(id);
   }
 
   public List<OperationType> findAll() {
@@ -24,6 +24,6 @@ public class OperationTypeService {
   }
 
   public void deleteById(String id) {
-    operationTypeRepository.deleteById(Integer.valueOf(id));
+    operationTypeRepository.deleteById(id);
   }
 }

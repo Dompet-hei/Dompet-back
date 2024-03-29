@@ -11,7 +11,7 @@ public class StatusService {
   private final StatusRepository statusRepository= new StatusRepository(null);
 
   public Status findById(String id) {
-    return statusRepository.getById(Integer.valueOf(id));
+    return statusRepository.getById(id);
   }
 
   public List<Status> findAll() {
@@ -24,6 +24,6 @@ public class StatusService {
   }
 
   public void deleteById(String id) {
-    statusRepository.deleteById(Integer.valueOf(id));
+    statusRepository.deleteById(id);
   }
 }

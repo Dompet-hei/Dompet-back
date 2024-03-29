@@ -11,7 +11,7 @@ public class TransferRecipientService {
   private final TransferRecipientRepository transferRecipientRepository= new TransferRecipientRepository(null);
 
   public TransferRecipient findById(String id) {
-    return transferRecipientRepository.getById(Integer.valueOf(id));
+    return transferRecipientRepository.getById(id);
   }
 
   public List<TransferRecipient> findAll() {
@@ -24,6 +24,6 @@ public class TransferRecipientService {
   }
 
   public void deleteById(String id) {
-    transferRecipientRepository.deleteById(Integer.valueOf(id));
+    transferRecipientRepository.deleteById(id);
   }
 }

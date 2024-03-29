@@ -11,7 +11,7 @@ public class OverdraftService {
   private final OverdraftRepository overdraftRepository= new OverdraftRepository(null);
 
   public Overdraft findById(String id) {
-    return overdraftRepository.getById(Integer.valueOf(id));
+    return overdraftRepository.getById(id);
   }
 
   public List<Overdraft> findAll() {
@@ -24,6 +24,6 @@ public class OverdraftService {
   }
 
   public void deleteById(String id) {
-    overdraftRepository.deleteById(Integer.valueOf(id));
+    overdraftRepository.deleteById(id);
   }
 }

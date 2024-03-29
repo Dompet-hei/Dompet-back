@@ -11,7 +11,7 @@ public class BankService {
   private final BankRepository bankRepository= new BankRepository(null);
 
   public Bank findById(String id) {
-    return bankRepository.getById(Integer.valueOf(id));
+    return bankRepository.getById(id);
   }
 
   public List<Bank> findAll() {
@@ -23,7 +23,7 @@ public class BankService {
     return bank;
   }
 
-  public void deleteById(Integer id) {
+  public void deleteById(String id) {
     bankRepository.deleteById(id);
   }
 }

@@ -10,7 +10,7 @@ public class AccountService {
   private final AccountRepository accountRepository = new AccountRepository(null);
 
   public Account findById(String id) {
-    return accountRepository.getById(Integer.valueOf(id));
+    return accountRepository.getById(id);
   }
 
   public List<Account> findAll() {
@@ -23,6 +23,6 @@ public class AccountService {
   }
 
   public void deleteById(String id) {
-    accountRepository.deleteById(Integer.valueOf(id));
+    accountRepository.deleteById(id);
   }
 }

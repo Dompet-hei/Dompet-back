@@ -11,7 +11,7 @@ public class StatementService {
   private final StatementRepository statementRepository= new StatementRepository(null);
 
   public Statement findById(String id) {
-    return statementRepository.getById(Integer.valueOf(id));
+    return statementRepository.getById(id);
   }
 
   public List<Statement> findAll() {
@@ -24,6 +24,6 @@ public class StatementService {
   }
 
   public void deleteById(String id) {
-    statementRepository.deleteById(Integer.valueOf(id));
+    statementRepository.deleteById(id);
   }
 }
