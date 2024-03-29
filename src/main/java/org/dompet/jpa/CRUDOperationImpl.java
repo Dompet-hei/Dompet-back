@@ -67,7 +67,7 @@ public abstract class CRUDOperationImpl<T> {
         return TList;
     }
 
-    public final T getById(String idColumn, Integer id) {
+    public final T getById(String idColumn, String id) {
         try {
             ResultSet resultSet = getConnection().createStatement().executeQuery("SELECT * FROM " + getActualClassName() + " WHERE " + idColumn + " = " + id);
 
@@ -80,7 +80,7 @@ public abstract class CRUDOperationImpl<T> {
         return null;
     };
 
-    public final T getById(Integer id) {
+    public final T getById(String id) {
         return getById("id", id);
     }
 
@@ -131,11 +131,11 @@ public abstract class CRUDOperationImpl<T> {
         try {
             Field idField = getActualClass().getDeclaredField("id");
             idField.setAccessible(true);
-            Integer id = (Integer) idField.get(entity);
+            String id = (String) idField.get(entity);
 
             String checkSql = "SELECT COUNT(*) FROM " + getActualClassName() + " WHERE id = ?";
             PreparedStatement checkStmt = getConnection().prepareStatement(checkSql);
-            checkStmt.setInt(1, id);
+            checkStmt.setString(1, id);
             ResultSet checkResult = checkStmt.executeQuery();
             checkResult.next();
             int count = checkResult.getInt(1);
@@ -156,7 +156,7 @@ public abstract class CRUDOperationImpl<T> {
                         index++;
                     }
                 }
-                saveStmt.setInt(index, id);
+                saveStmt.setString(index, id);
             } else {
                 insert(entity, true);
             }
@@ -180,11 +180,11 @@ public abstract class CRUDOperationImpl<T> {
         return sql.toString();
     }
 
-    public void deleteById(Integer id) {
+    public void deleteById(String id) {
         try {
             String deleteSql = "DELETE FROM " + getActualClassName() + " WHERE id = ?";
             PreparedStatement deleteStmt = getConnection().prepareStatement(deleteSql);
-            deleteStmt.setInt(1, id);
+            deleteStmt.setString(1, id);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
