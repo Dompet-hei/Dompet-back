@@ -48,6 +48,7 @@ public abstract class CRUDOperationImpl<T> {
                     case Types.TIMESTAMP -> setter.invoke(newT, resultSet.getDate(champ.getName()));
                     case Types.BOOLEAN -> setter.invoke(newT, resultSet.getBoolean(champ.getName()));
                     case Types.BIGINT -> setter.invoke(newT, resultSet.getBigDecimal(champ.getName()));
+                    case Types.FLOAT -> setter.invoke(newT, resultSet.getFloat(champ.getName()));
                     default -> throw new Error(String.format("The Type with id %s in the result set is not implemented", columnType));
                 }
             }
@@ -126,6 +127,7 @@ public abstract class CRUDOperationImpl<T> {
                         case "java.math.BigDecimal" -> pr.setBigDecimal(index, BigDecimal.valueOf(
                                 Long.parseLong(getter.invoke(newT).toString())
                         ));
+                        case "java.lang.Double" -> pr.setFloat(index, (Integer) getter.invoke(newT));
                         default ->
                                 throw new Error(String.format("The Type with id %s in the result set is not implemented", champ.getType()));
                     }
