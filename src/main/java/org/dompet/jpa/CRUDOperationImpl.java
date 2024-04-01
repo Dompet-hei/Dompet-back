@@ -45,7 +45,7 @@ public abstract class CRUDOperationImpl<T> {
                     case Types.VARCHAR -> setter.invoke(newT, resultSet.getString(champ.getName()));
                     case Types.INTEGER -> setter.invoke(newT, resultSet.getInt(champ.getName()));
                     case Types.DATE -> setter.invoke(newT, resultSet.getDate(champ.getName()));
-                    case Types.TIMESTAMP -> setter.invoke(newT, resultSet.getDate(champ.getName()));
+                    case Types.TIMESTAMP -> setter.invoke(newT, resultSet.getTimestamp(champ.getName()));
                     case Types.BOOLEAN -> setter.invoke(newT, resultSet.getBoolean(champ.getName()));
                     case Types.BIGINT -> setter.invoke(newT, resultSet.getBigDecimal(champ.getName()));
                     case Types.FLOAT -> setter.invoke(newT, resultSet.getFloat(champ.getName()));
