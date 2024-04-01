@@ -44,6 +44,7 @@ public abstract class CRUDOperationImpl<T> {
                     case Types.VARCHAR -> setter.invoke(newT, resultSet.getString(champ.getName()));
                     case Types.INTEGER -> setter.invoke(newT, resultSet.getInt(champ.getName()));
                     case Types.DATE -> setter.invoke(newT, resultSet.getDate(champ.getName()));
+                    case Types.TIMESTAMP -> setter.invoke(newT, resultSet.getDate(champ.getName()))
                     default -> throw new Error(String.format("The Type with id %s in the result set is not implemented", columnType));
                 }
             }
@@ -117,6 +118,7 @@ public abstract class CRUDOperationImpl<T> {
                         case "java.lang.String" -> pr.setString(index, getter.invoke(newT).toString());
                         case "java.lang.Integer" -> pr.setInt(index, (Integer) getter.invoke(newT));
                         case "java.time.LocalDate" -> pr.setDate(index, Date.valueOf(getter.invoke(newT).toString()));
+                        case "java.time.Instant" -> pr.setTimestamp(index, Timestamp.valueOf(getter.invoke(newT).toString()));
                         default ->
                                 throw new Error(String.format("The Type with id %s in the result set is not implemented", champ.getType()));
                     }
