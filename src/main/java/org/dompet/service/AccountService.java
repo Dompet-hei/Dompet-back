@@ -39,7 +39,7 @@ public class AccountService {
   }
 
   public Optional<Account> findAccountById(String id) {
-    return accountRepository.getById(id);
+    return accountRepository.getById("account_id", id);
   }
 
   public List<Account> findAllAccounts() {

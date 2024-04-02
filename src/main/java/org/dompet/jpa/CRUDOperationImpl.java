@@ -102,10 +102,27 @@ public abstract class CRUDOperationImpl<T> {
   public final Optional<T> getById(String idColumn, String id) {
     try {
       ResultSet resultSet =
-          getConnection()
-              .createStatement()
-              .executeQuery(
-                  "SELECT * FROM " + getActualClassName() + " WHERE " + idColumn + " = " + id);
+              getConnection()
+                      .createStatement()
+                      .executeQuery(
+                              "SELECT * FROM " + getActualClassName() + " WHERE " + idColumn + " = '" + id + "'");
+
+      while (resultSet.next()) {
+        return Optional.ofNullable(createT(resultSet));
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    return null;
+  }
+
+  public final Optional<T> getById(String idColumn, Integer id) {
+    try {
+      ResultSet resultSet =
+              getConnection()
+                      .createStatement()
+                      .executeQuery(
+                              "SELECT * FROM " + getActualClassName() + " WHERE " + idColumn + " = " + id);
 
       while (resultSet.next()) {
         return Optional.ofNullable(createT(resultSet));
