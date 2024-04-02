@@ -2,7 +2,9 @@ package org.dompet.repository;
 
 import java.util.List;
 import org.dompet.jpa.CRUDOperationImpl;
+import org.dompet.model.Transfer;
 import org.dompet.model.TransferRecipient;
+import org.dompet.utils.annotations.IdAnnotation;
 import org.dompet.utils.database.DBConnector;
 import org.springframework.stereotype.Repository;
 
@@ -19,7 +21,8 @@ public class TransferRecipientRepository extends CRUDOperationImpl<TransferRecip
 
   public List<TransferRecipient> findTransferRecipientByTransferId(String transferId) {
     List<TransferRecipient> transferRecipients =
-        getAllWithCondition("transfer_id = ?", null, null, transferId);
+        getAllWithCondition(
+            IdAnnotation.getIdColumnName(Transfer.class) + " = ?", null, null, transferId);
     return transferRecipients.isEmpty() ? null : transferRecipients;
   }
 }
