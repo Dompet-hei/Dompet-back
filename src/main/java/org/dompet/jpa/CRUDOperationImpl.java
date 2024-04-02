@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -49,6 +50,7 @@ public abstract class CRUDOperationImpl<T> {
                         + Character.toUpperCase(champ.getName().charAt(0))
                         + champ.getName().substring(1),
                     champ.getType());
+        System.out.println(setter);
         String columnName = getColumnName(champ);
         int columnType = resultSet.getMetaData().getColumnType(resultSet.findColumn(columnName));
         switch (columnType) {
@@ -57,11 +59,23 @@ public abstract class CRUDOperationImpl<T> {
           case Types.DATE -> {
             switch (champ.getType().getName()) {
               case "java.time.LocalDate" -> setter.invoke(
-                  newT, resultSet.getDate(columnName).toLocalDate());
+                      newT, resultSet.getDate(columnName).toLocalDate());
               default -> setter.invoke(newT, resultSet.getDate(columnName));
             }
           }
-          case Types.TIMESTAMP -> setter.invoke(newT, resultSet.getTimestamp(columnName));
+          case Types.TIMESTAMP -> {
+            switch (champ.getType().getName()) {
+              case "java.time.Instant" -> setter.invoke(
+                      newT, (
+                              Optional.ofNullable(
+                                      resultSet.getTimestamp(columnName)
+                              ).orElse(
+                                      Timestamp.valueOf(LocalDateTime.MIN)
+                              ).toInstant())
+              );
+              default -> setter.invoke(newT, resultSet.getTimestamp(columnName));
+            }
+          }
           case Types.BOOLEAN, Types.BIT -> setter.invoke(newT, resultSet.getBoolean(columnName));
           case Types.BIGINT -> setter.invoke(newT, resultSet.getLong(columnName));
           case Types.FLOAT -> setter.invoke(newT, resultSet.getFloat(columnName));
