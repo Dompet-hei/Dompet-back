@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.sql.Date;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -237,6 +238,10 @@ public abstract class CRUDOperationImpl<T> {
       pr.setString(index, (String) value);
     } else if (type == Integer.class) {
       pr.setInt(index, (Integer) value);
+    } else if (type == Long.class) {
+      pr.setLong(index, (Long) value);
+    } else if (type == Instant.class) {
+      pr.setTimestamp(index, Timestamp.from((Instant) value));
     } else if (type == LocalDate.class) {
       pr.setDate(index, Date.valueOf((LocalDate) value));
     } else if (type == BigDecimal.class) {
@@ -245,6 +250,14 @@ public abstract class CRUDOperationImpl<T> {
       pr.setBoolean(index, (Boolean) value);
     } else if (type == Double.class) {
       pr.setDouble(index, (Double) value);
+    } else if (type == Float.class) {
+      pr.setFloat(index, (Float) value);
+    } else if (type == Timestamp.class) {
+      pr.setTimestamp(index, (Timestamp) value);
+    } else if (type == Byte.class) {
+      pr.setByte(index, (Byte) value);
+    } else if (type == Short.class) {
+      pr.setShort(index, (Short) value);
     } else {
       throw new IllegalArgumentException("Unsupported type: " + type.getName());
     }
