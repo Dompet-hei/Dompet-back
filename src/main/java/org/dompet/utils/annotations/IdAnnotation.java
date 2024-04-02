@@ -5,7 +5,7 @@ import org.dompet.model.Account;
 import java.util.Arrays;
 
 public class IdAnnotation {
-    static String getIdColumnName(Class<?> clazz){
+    public static String getIdColumnName(Class<?> clazz){
         return Arrays
                 .stream(clazz.getDeclaredFields())
                 .filter(champ -> champ.isAnnotationPresent(Id.class))
