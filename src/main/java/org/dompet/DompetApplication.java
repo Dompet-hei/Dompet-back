@@ -11,22 +11,19 @@ import org.springframework.context.event.EventListener;
 @SpringBootApplication
 public class DompetApplication {
 
-    @Autowired
-    private DBProperties dbProperties;
+  @Autowired private DBProperties dbProperties;
 
-    public static void main(String[] args) {
-        SpringApplication.run(DompetApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(DompetApplication.class, args);
+  }
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void migrateOnStartup() {
-        Flyway flyway = Flyway.configure()
-            .dataSource(
-                dbProperties.getUrl(),
-                dbProperties.getUser(),
-                dbProperties.getPassword())
-                .baselineOnMigrate(true)
+  @EventListener(ApplicationReadyEvent.class)
+  public void migrateOnStartup() {
+    Flyway flyway =
+        Flyway.configure()
+            .dataSource(dbProperties.getUrl(), dbProperties.getUser(), dbProperties.getPassword())
+            .baselineOnMigrate(true)
             .load();
-        flyway.migrate();
-    }
+    flyway.migrate();
+  }
 }
