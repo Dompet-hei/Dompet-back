@@ -18,10 +18,14 @@ public class TransactionRepository extends CRUDOperationImpl<Transaction> {
   }
 
   public List<Transaction> findAllByAccountId(String accountId) {
-    return null;
+    List<Transaction> transactions = getAllWithCondition("account_id = ?", null, null, accountId);
+    return transactions.isEmpty() ? null : transactions;
   }
 
   public Transaction findByAccountIdAndTransactionId(String accountId, String transactionId) {
-    return null;
+    List<Transaction> transactions =
+        getAllWithCondition(
+            "account_id = ? AND transaction_id = ?", null, null, accountId, transactionId);
+    return transactions.isEmpty() ? null : transactions.get(0);
   }
 }

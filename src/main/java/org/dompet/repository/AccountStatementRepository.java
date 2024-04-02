@@ -18,6 +18,8 @@ public class AccountStatementRepository extends CRUDOperationImpl<AccountStateme
   }
 
   public List<AccountStatement> findAllByAccountId(String accountId) {
-    return null;
+    List<AccountStatement> accountStatements =
+        getAllWithCondition("account_id = ?", null, null, accountId);
+    return accountStatements.isEmpty() ? null : accountStatements;
   }
 }

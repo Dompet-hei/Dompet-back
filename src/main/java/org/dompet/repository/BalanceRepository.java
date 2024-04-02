@@ -18,10 +18,13 @@ public class BalanceRepository extends CRUDOperationImpl<Balance> {
   }
 
   public List<Balance> findAllByAccountId(String accountId) {
-    return null;
+    List<Balance> balances = getAllWithCondition("account_id = ?", null, null, accountId);
+    return balances.isEmpty() ? null : balances;
   }
 
   public Balance findFirstByAccountIdOrderByLastUpdatedDesc(String accountId) {
-    return null;
+    List<Balance> balances =
+        getAllWithCondition("account_id = ?", "last_updated DESC", 1, accountId);
+    return balances.isEmpty() ? null : balances.get(0);
   }
 }

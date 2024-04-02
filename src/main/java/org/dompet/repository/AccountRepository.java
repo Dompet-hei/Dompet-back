@@ -17,7 +17,8 @@ public class AccountRepository extends CRUDOperationImpl<Account> {
     return Account.class;
   }
 
-  public List<Account> findByClientId(String clientId) {
-    return null;
+  public List<Account> findAllByClientId(String clientId) {
+    List<Account> accounts = getAllWithCondition("client_id = ?", null, null, clientId);
+    return accounts.isEmpty() ? null : accounts;
   }
 }

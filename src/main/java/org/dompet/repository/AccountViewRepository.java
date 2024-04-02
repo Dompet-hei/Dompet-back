@@ -1,5 +1,6 @@
 package org.dompet.repository;
 
+import java.util.List;
 import org.dompet.jpa.CRUDOperationImpl;
 import org.dompet.model.AccountView;
 import org.dompet.utils.database.DBConnector;
@@ -17,6 +18,7 @@ public class AccountViewRepository extends CRUDOperationImpl<AccountView> {
   }
 
   public AccountView findByAccountId(String accountId) {
-    return null;
+    List<AccountView> accountViews = getAllWithCondition("account_id = ?", null, null, accountId);
+    return accountViews.isEmpty() ? null : accountViews.get(0);
   }
 }

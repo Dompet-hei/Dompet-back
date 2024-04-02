@@ -18,6 +18,8 @@ public class OperationCategoryRepository extends CRUDOperationImpl<OperationCate
   }
 
   public List<OperationCategory> findAllByOperationTypeIs(String operationType) {
-    return null;
+    List<OperationCategory> operationCategories =
+        getAllWithCondition("operation_type = ?", null, null, operationType);
+    return operationCategories.isEmpty() ? null : operationCategories;
   }
 }

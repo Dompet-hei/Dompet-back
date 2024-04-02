@@ -18,10 +18,15 @@ public class TransferRepository extends CRUDOperationImpl<Transfer> {
   }
 
   public List<Transfer> findAllBySenderAccountId(String senderAccountId) {
-    return null;
+    List<Transfer> transfers =
+        getAllWithCondition("sender_account_id = ?", null, null, senderAccountId);
+    return transfers.isEmpty() ? null : transfers;
   }
 
-  public Transfer findBySenderAccountIdAndTransferId(String SenderAccountId, String transferId) {
-    return null;
+  public Transfer findBySenderAccountIdAndTransferId(String senderAccountId, String transferId) {
+    List<Transfer> transfers =
+        getAllWithCondition(
+            "sender_account_id = ? AND transfer_id = ?", null, null, senderAccountId, transferId);
+    return transfers.isEmpty() ? null : transfers.get(0);
   }
 }

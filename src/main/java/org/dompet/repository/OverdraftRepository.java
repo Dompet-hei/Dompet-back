@@ -17,13 +17,15 @@ public class OverdraftRepository extends CRUDOperationImpl<Overdraft> {
     return Overdraft.class;
   }
 
-  public List<Overdraft> findByAccountId(String accountId) {
-    return null;
+  public List<Overdraft> findAllByAccountId(String accountId) {
+    List<Overdraft> overdrafts = getAllWithCondition("account_id = ?", null, null, accountId);
+    return overdrafts.isEmpty() ? null : overdrafts;
   }
-  ;
 
   public Overdraft findByAccountIdAndOverdraftId(String accountId, String overdraftId) {
-    return null;
+    List<Overdraft> overdrafts =
+        getAllWithCondition(
+            "account_id = ? AND overdraft_id = ?", accountId, null, null, overdraftId);
+    return overdrafts.isEmpty() ? null : overdrafts.get(0);
   }
-  ;
 }
