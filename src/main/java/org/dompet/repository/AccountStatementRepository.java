@@ -21,7 +21,8 @@ public class AccountStatementRepository extends CRUDOperationImpl<AccountStateme
 
   public List<AccountStatement> findAllByAccountId(String accountId) {
     List<AccountStatement> accountStatements =
-        getAllWithCondition(IdAnnotation.getIdColumnName(Account.class) + " = ?", null, null, accountId);
+        getAllWithCondition(
+            IdAnnotation.getIdColumnName(Account.class) + " = ?", null, null, accountId);
     return accountStatements.isEmpty() ? null : accountStatements;
   }
 }

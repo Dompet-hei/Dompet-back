@@ -20,14 +20,23 @@ public class OverdraftRepository extends CRUDOperationImpl<Overdraft> {
   }
 
   public List<Overdraft> findAllByAccountId(String accountId) {
-    List<Overdraft> overdrafts = getAllWithCondition(IdAnnotation.getIdColumnName(Account.class) + " = ?", null, null, accountId);
+    List<Overdraft> overdrafts =
+        getAllWithCondition(
+            IdAnnotation.getIdColumnName(Account.class) + " = ?", null, null, accountId);
     return overdrafts.isEmpty() ? null : overdrafts;
   }
 
   public Overdraft findByAccountIdAndOverdraftId(String accountId, String overdraftId) {
     List<Overdraft> overdrafts =
         getAllWithCondition(
-                IdAnnotation.getIdColumnName(Account.class) + " = ? AND "+ IdAnnotation.getIdColumnName(Overdraft.class) +" = ?", accountId, null, null, overdraftId);
+            IdAnnotation.getIdColumnName(Account.class)
+                + " = ? AND "
+                + IdAnnotation.getIdColumnName(Overdraft.class)
+                + " = ?",
+            null,
+            null,
+            accountId,
+            overdraftId);
     return overdrafts.isEmpty() ? null : overdrafts.get(0);
   }
 }

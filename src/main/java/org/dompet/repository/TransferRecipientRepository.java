@@ -21,7 +21,8 @@ public class TransferRecipientRepository extends CRUDOperationImpl<TransferRecip
 
   public List<TransferRecipient> findTransferRecipientByTransferId(String transferId) {
     List<TransferRecipient> transferRecipients =
-        getAllWithCondition(IdAnnotation.getIdColumnName(Transfer.class) + " = ?", null, null, transferId);
+        getAllWithCondition(
+            IdAnnotation.getIdColumnName(Transfer.class) + " = ?", null, null, transferId);
     return transferRecipients.isEmpty() ? null : transferRecipients;
   }
 }

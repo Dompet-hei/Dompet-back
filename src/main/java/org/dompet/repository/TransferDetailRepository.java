@@ -21,7 +21,8 @@ public class TransferDetailRepository extends CRUDOperationImpl<TransferDetail> 
 
   public List<TransferDetail> findTransferDetails(String transferId) {
     List<TransferDetail> transferDetails =
-        getAllWithCondition(IdAnnotation.getIdColumnName(Transfer.class) + " = ?", null, null, transferId);
+        getAllWithCondition(
+            IdAnnotation.getIdColumnName(Transfer.class) + " = ?", null, null, transferId);
     return transferDetails.isEmpty() ? null : transferDetails;
   }
 }

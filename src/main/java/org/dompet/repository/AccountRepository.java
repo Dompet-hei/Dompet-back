@@ -20,7 +20,9 @@ public class AccountRepository extends CRUDOperationImpl<Account> {
   }
 
   public List<Account> findAllByClientId(String clientId) {
-    List<Account> accounts = getAllWithCondition(IdAnnotation.getIdColumnName(Client.class) + " = ?", null, null, clientId);
+    List<Account> accounts =
+        getAllWithCondition(
+            IdAnnotation.getIdColumnName(Client.class) + " = ?", null, null, clientId);
     return accounts.isEmpty() ? null : accounts;
   }
 }

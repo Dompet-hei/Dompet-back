@@ -27,7 +27,11 @@ public class TransferRepository extends CRUDOperationImpl<Transfer> {
   public Transfer findBySenderAccountIdAndTransferId(String senderAccountId, String transferId) {
     List<Transfer> transfers =
         getAllWithCondition(
-            "sender_account_id = ? AND "+ IdAnnotation.getIdColumnName(Transfer.class) +" = ?", null, null, senderAccountId, transferId);
+            "sender_account_id = ? AND " + IdAnnotation.getIdColumnName(Transfer.class) + " = ?",
+            null,
+            null,
+            senderAccountId,
+            transferId);
     return transfers.isEmpty() ? null : transfers.get(0);
   }
 }
