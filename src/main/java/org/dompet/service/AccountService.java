@@ -39,11 +39,11 @@ public class AccountService {
   }
 
   public Optional<Account> findAccountById(String id) {
-    return accountRepository.findById(id);
+    return accountRepository.getById(id);
   }
 
   public List<Account> findAllAccounts() {
-    return accountRepository.findAll();
+    return accountRepository.getAll();
   }
 
   public void deleteAccountById(String id) {

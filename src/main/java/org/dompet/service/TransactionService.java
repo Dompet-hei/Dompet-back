@@ -16,23 +16,23 @@ public class TransactionService {
   }
 
   public Transaction saveTransaction(Transaction transaction) {
-    if (transactionRepository.findById(transaction.getTransactionId()).isEmpty()) {
+    if (transactionRepository.getById(transaction.getTransactionId()).isEmpty()) {
       return transactionRepository.save(transaction);
     }
     Transaction existingTransaction =
         transactionRepository
-            .findById(transaction.getTransactionId())
+            .getById(transaction.getTransactionId())
             .orElseThrow(() -> new RuntimeException("Transaction not found"));
     EntityUtil.updateEntityFields(existingTransaction, transaction);
     return transactionRepository.save(existingTransaction);
   }
 
   public Optional<Transaction> findTransactionById(String id) {
-    return transactionRepository.findById(id);
+    return transactionRepository.getById(id);
   }
 
   public List<Transaction> findAllTransactions() {
-    return transactionRepository.findAll();
+    return transactionRepository.getAll();
   }
 
   public void deleteTransactionById(String id) {

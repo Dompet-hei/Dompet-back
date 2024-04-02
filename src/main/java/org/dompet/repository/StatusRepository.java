@@ -1,17 +1,15 @@
 package org.dompet.repository;
 
-import java.util.List;
-import java.util.Optional;
+import org.dompet.jpa.CRUDOperationImpl;
 import org.dompet.model.Status;
-import org.springframework.stereotype.Repository;
+import org.dompet.utils.database.DBConnector;
 
-@Repository
-public interface StatusRepository {
-  Status save(Status status);
-
-  Optional<Status> findById(String id);
-
-  List<Status> findAll();
-
-  void deleteById(String id);
+public class StatusRepository extends CRUDOperationImpl<Status> {
+    public StatusRepository(DBConnector status) {
+        super(status);
+    }
+    @Override
+    protected Class<Status> getActualClass() {
+        return Status.class;
+    }
 }

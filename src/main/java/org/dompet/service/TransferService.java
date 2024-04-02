@@ -27,7 +27,7 @@ public class TransferService {
   }
 
   public List<TransferDetail> findAllDetails() {
-    return transferDetailRepository.findAll();
+    return transferDetailRepository.getAll();
   }
 
   public Transfer saveTransfer(Transfer transfer) {
@@ -35,11 +35,11 @@ public class TransferService {
   }
 
   public Optional<Transfer> findTransferById(String id) {
-    return transferRepository.findById(id);
+    return transferRepository.getById(id);
   }
 
   public List<Transfer> findAllTransfers() {
-    return transferRepository.findAll();
+    return transferRepository.getAll();
   }
 
   public void deleteTransferById(String id) {
@@ -48,13 +48,13 @@ public class TransferService {
 
   public TransferRecipient saveTransferRecipient(TransferRecipient transferRecipient) {
     if (transferRecipientRepository
-        .findById(transferRecipient.getTransferRecipientId())
+        .getById(transferRecipient.getTransferRecipientId())
         .isEmpty()) {
       return transferRecipientRepository.save(transferRecipient);
     }
     TransferRecipient existingTransferRecipient =
         transferRecipientRepository
-            .findById(transferRecipient.getTransferRecipientId())
+            .getById(transferRecipient.getTransferRecipientId())
             .orElseThrow(() -> new RuntimeException("TransferRecipient not found"));
     EntityUtil.updateEntityFields(existingTransferRecipient, transferRecipient);
     return transferRecipientRepository.save(existingTransferRecipient);

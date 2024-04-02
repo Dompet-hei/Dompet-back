@@ -36,11 +36,11 @@ public class ClientService {
   }
 
   public Optional<Client> findClientById(String id) {
-    return clientRepository.findById(id);
+    return clientRepository.getById(id);
   }
 
   public List<Client> findAllClients() {
-    return clientRepository.findAll();
+    return clientRepository.getAll();
   }
 
   public void deleteClientById(String id) {

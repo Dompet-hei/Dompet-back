@@ -28,11 +28,11 @@ public class OverdraftService {
   }
 
   public Optional<Overdraft> findOverdraftById(String id) {
-    return overdraftRepository.findById(id);
+    return overdraftRepository.getById(id);
   }
 
   public List<Overdraft> findAllOverdrafts() {
-    return overdraftRepository.findAll();
+    return overdraftRepository.getAll();
   }
 
   public void deleteOverdraftById(String id) {

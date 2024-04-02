@@ -18,11 +18,11 @@ public class BankController {
 
   @GetMapping
   public List<Bank> findAllBanks() {
-    return bankService.findAllBanks();
+    return bankService.findAll();
   }
 
   @GetMapping("/{id}")
   public Optional<Bank> findBankById(@PathVariable String id) {
-    return bankService.findBankById(id);
+    return bankService.findById(id);
   }
 }

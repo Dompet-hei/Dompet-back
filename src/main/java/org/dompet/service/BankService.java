@@ -15,10 +15,10 @@ public class BankService {
   }
 
   public Optional<Bank> findBankById(String id) {
-    return bankRepository.findById(id);
+    return bankRepository.getById(id);
   }
 
   public List<Bank> findAllBanks() {
-    return bankRepository.findAll();
+    return bankRepository.getAll();
   }
 }

@@ -15,11 +15,11 @@ public class OperationCategoryService {
   }
 
   public Optional<OperationCategory> findOperationCategoryById(String id) {
-    return operationCategoryRepository.findById(id);
+    return operationCategoryRepository.getById(id);
   }
 
   public List<OperationCategory> findAllOperationCategories() {
-    return operationCategoryRepository.findAll();
+    return operationCategoryRepository.getAll();
   }
 
   public List<OperationCategory> findAllIncomeCategories() {
