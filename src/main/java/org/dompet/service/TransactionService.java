@@ -17,14 +17,14 @@ public class TransactionService {
 
   public Transaction saveTransaction(Transaction transaction) {
     if (transactionRepository.getById(transaction.getTransactionId()).isEmpty()) {
-      return transactionRepository.save(transaction);
+      return transactionRepository.insert(transaction, true);
     }
     Transaction existingTransaction =
         transactionRepository
             .getById(transaction.getTransactionId())
             .orElseThrow(() -> new RuntimeException("Transaction not found"));
     EntityUtil.updateEntityFields(existingTransaction, transaction);
-    return transactionRepository.save(existingTransaction);
+    return transactionRepository.insert(existingTransaction, true);
   }
 
   public Optional<Transaction> findTransactionById(String id) {
