@@ -3,7 +3,7 @@ openapi: 3.0.1
 info:
   title: Dompet API
   description: API for managing banking operations
-  version: 2.0.1
+  version: 2.1.0
 servers:
   - url: http://localhost:8080
     description: Local development server
@@ -874,6 +874,33 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 
+  /transfer/{id}/details:
+    get:
+      tags:
+        - Transfer
+      summary: Get the details of a transfer
+      description: Retrieve the details of a transfer by its ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the transfer
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferDetail'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
   /transfer/{id}/transferRecipient:
     get:
       tags:
@@ -1346,6 +1373,73 @@ components:
         transferId: 'TR12345'
         recipientAccountId: 'AC67890'
         amount: 100000
+
+    TransferDetail:
+      type: object
+      description: Details of a transfer operation.
+      properties:
+        transferId:
+          type: string
+          description: The unique identifier of the transfer.
+        uniqueReference:
+          type: string
+          description: A unique reference for the transfer.
+        scheduledEffectiveDate:
+          type: string
+          format: date
+          description: The scheduled date for the transfer to take effect.
+        transferStatus:
+          type: string
+          description: The current status of the transfer.
+        description:
+          type: string
+          description: A description of the transfer.
+        effectiveDate:
+          type: string
+          format: date-time
+          description: The date and time when the transfer was effectively processed.
+        amount:
+          type: number
+          format: float
+          description: The amount transferred.
+        senderAccountId:
+          type: string
+          description: The ID of the sender's account.
+        recipientAccountId:
+          type: string
+          description: The ID of the recipient's account.
+        senderAccount:
+          type: integer
+          format: int64
+          description: The sender's account number.
+        recipientAccount:
+          type: integer
+          format: int64
+          description: The recipient's account number.
+      required:
+        - transferId
+        - uniqueReference
+        - scheduledEffectiveDate
+        - transferStatus
+        - description
+        - effectiveDate
+        - amount
+        - senderAccountId
+        - recipientAccountId
+        - senderAccount
+        - recipientAccount
+      example:
+        transferId: "TR12345"
+        uniqueReference: "UR67890"
+        scheduledEffectiveDate: "2024-04-02"
+        transferStatus: "Completed"
+        description: "Transfer from John Doe to Don Smokilla"
+        effectiveDate: "2024-04-02T10:00:00Z"
+        amount: 1000.00
+        senderAccountId: "AC12345"
+        recipientAccountId: "AC67890"
+        senderAccount: 123456789
+        recipientAccount: 987654321
 
     Transaction:
       type: object
