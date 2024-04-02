@@ -2,7 +2,9 @@ package org.dompet.repository;
 
 import java.util.List;
 import org.dompet.jpa.CRUDOperationImpl;
+import org.dompet.model.Account;
 import org.dompet.model.Transaction;
+import org.dompet.utils.annotations.IdAnnotation;
 import org.dompet.utils.database.DBConnector;
 import org.springframework.stereotype.Repository;
 
@@ -18,14 +20,14 @@ public class TransactionRepository extends CRUDOperationImpl<Transaction> {
   }
 
   public List<Transaction> findAllByAccountId(String accountId) {
-    List<Transaction> transactions = getAllWithCondition("account_id = ?", null, null, accountId);
+    List<Transaction> transactions = getAllWithCondition(IdAnnotation.getIdColumnName(Account.class) + " = ?", null, null, accountId);
     return transactions.isEmpty() ? null : transactions;
   }
 
   public Transaction findByAccountIdAndTransactionId(String accountId, String transactionId) {
     List<Transaction> transactions =
         getAllWithCondition(
-            "account_id = ? AND transaction_id = ?", null, null, accountId, transactionId);
+                IdAnnotation.getIdColumnName(Account.class) + " = ? AND "+ IdAnnotation.getIdColumnName(Transaction.class) +" = ?", null, null, accountId, transactionId);
     return transactions.isEmpty() ? null : transactions.get(0);
   }
 }
