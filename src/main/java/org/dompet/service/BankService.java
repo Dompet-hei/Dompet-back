@@ -14,19 +14,11 @@ public class BankService {
     this.bankRepository = BankRepository;
   }
 
-  public Bank save(Bank Bank) {
-    return bankRepository.save(Bank);
-  }
-
-  public Optional<Bank> findById(String id) {
+  public Optional<Bank> findBankById(String id) {
     return bankRepository.findById(id);
   }
 
-  public List<Bank> findAll() {
+  public List<Bank> findAllBanks() {
     return bankRepository.findAll();
-  }
-
-  public void deleteById(String id) {
-    bankRepository.deleteById(id);
   }
 }

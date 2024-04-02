@@ -5,32 +5,24 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.dompet.model.Bank;
 import org.dompet.service.BankService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 @RequestMapping("/bank")
 public class BankController {
   private final BankService bankService;
 
   @GetMapping
   public List<Bank> findAllBanks() {
-    return bankService.findAll();
+    return bankService.findAllBanks();
   }
 
   @GetMapping("/{id}")
   public Optional<Bank> findBankById(@PathVariable String id) {
-    return bankService.findById(id);
-  }
-
-  @PutMapping
-  public Bank saveBank(@RequestBody Bank bank) {
-    return bankService.save(bank);
-  }
-
-  @DeleteMapping("/{id}")
-  public void deleteBankById(@PathVariable String id) {
-    bankService.deleteById(id);
+    return bankService.findBankById(id);
   }
 }
