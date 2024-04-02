@@ -4,33 +4,38 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.dompet.model.Transfer;
+import org.dompet.model.TransferRecipient;
 import org.dompet.service.TransferService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 @RequestMapping("/transfer")
 public class TransferController {
   private final TransferService transferService;
 
   @GetMapping
   public List<Transfer> findAllTransfers() {
-    return transferService.findAll();
+    return transferService.findAllTransfers();
+  }
+
+  @GetMapping("/{id}/transferRecipient")
+  public List<TransferRecipient> findAllTransferRecipientByTransferId(@PathVariable String id) {
+    return transferService.findTransferRecipientByTransferId(id);
   }
 
   @GetMapping("/{id}")
   public Optional<Transfer> findTransferById(@PathVariable String id) {
-    return transferService.findById(id);
+    return transferService.findTransferById(id);
   }
 
   @PutMapping
   public Transfer saveTransfer(@RequestBody Transfer transfer) {
-    return transferService.save(transfer);
+    return transferService.saveTransfer(transfer);
   }
 
   @DeleteMapping("/{id}")
   public void deleteTransferById(@PathVariable String id) {
-    transferService.deleteById(id);
+    transferService.deleteTransferById(id);
   }
 }

@@ -1,17 +1,25 @@
 package org.dompet.repository;
 
 import java.util.List;
-import java.util.Optional;
+import org.dompet.jpa.CRUDOperationImpl;
 import org.dompet.model.OperationCategory;
+import org.dompet.utils.database.DBConnector;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OperationCategoryRepository {
-  OperationCategory save(OperationCategory operationCategory);
+public class OperationCategoryRepository extends CRUDOperationImpl<OperationCategory> {
+  public OperationCategoryRepository(DBConnector dbConnector) {
+    super(dbConnector);
+  }
 
-  Optional<OperationCategory> findById(String id);
+  @Override
+  protected Class<OperationCategory> getActualClass() {
+    return OperationCategory.class;
+  }
 
-  List<OperationCategory> findAll();
-
-  void deleteById(String id);
+  public List<OperationCategory> findAllByOperationTypeIs(String operationType) {
+    List<OperationCategory> operationCategories =
+        getAllWithCondition("operation_type = ?", null, null, operationType);
+    return operationCategories.isEmpty() ? null : operationCategories;
+  }
 }

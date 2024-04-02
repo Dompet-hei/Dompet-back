@@ -1,17 +1,18 @@
 package org.dompet.repository;
 
-import java.util.List;
-import java.util.Optional;
+import org.dompet.jpa.CRUDOperationImpl;
 import org.dompet.model.Client;
+import org.dompet.utils.database.DBConnector;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ClientRepository {
-  Client save(Client client);
+public class ClientRepository extends CRUDOperationImpl<Client> {
+  public ClientRepository(DBConnector dbConnector) {
+    super(dbConnector);
+  }
 
-  Optional<Client> findById(String id);
-
-  List<Client> findAll();
-
-  void deleteById(String id);
+  @Override
+  protected Class<Client> getActualClass() {
+    return Client.class;
+  }
 }

@@ -7,8 +7,8 @@ import org.dompet.utils.annotations.Column;
 import org.dompet.utils.annotations.Id;
 import org.dompet.utils.annotations.Model;
 
-@Builder
 @Data
+@NoArgsConstructor
 @Model(table = "overdraft")
 public class Overdraft {
   @Id
@@ -29,10 +29,4 @@ public class Overdraft {
 
   @Column(name = "overdraft_reimbursement_date")
   private LocalDate overdraftReimbursementDate;
-
-  @Column(name = "overdraft_interest_day1to7")
-  private Double overdraftInterestDay1to7;
-
-  @Column(name = "overdraft_interest_after7")
-  private Double overdraftInterestAfter7;
 }

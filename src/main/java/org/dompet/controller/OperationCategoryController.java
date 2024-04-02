@@ -9,28 +9,27 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 @RequestMapping("/categories")
 public class OperationCategoryController {
   private final OperationCategoryService operationCategoryService;
 
   @GetMapping
   public List<OperationCategory> findAllOperationCategory() {
-    return operationCategoryService.findAll();
+    return operationCategoryService.findAllOperationCategories();
   }
 
   @GetMapping("/{id}")
   public Optional<OperationCategory> findOperationCategoryById(@PathVariable String id) {
-    return operationCategoryService.findById(id);
+    return operationCategoryService.findOperationCategoryById(id);
   }
 
-  @PutMapping
-  public OperationCategory saveOperationCategory(@RequestBody OperationCategory operationCategory) {
-    return operationCategoryService.save(operationCategory);
+  @GetMapping("/income")
+  public List<OperationCategory> findAllIncomeCategories() {
+    return operationCategoryService.findAllIncomeCategories();
   }
 
-  @DeleteMapping("/{id}")
-  public void deleteOperationCategoryById(@PathVariable String id) {
-    operationCategoryService.deleteById(id);
+  @GetMapping("/expense")
+  public List<OperationCategory> findAllExpenseCategories() {
+    return operationCategoryService.findAllExpenseCategories();
   }
 }

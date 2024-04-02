@@ -9,28 +9,27 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 @RequestMapping("/transaction")
 public class TransactionController {
   private final TransactionService transactionService;
 
   @GetMapping
   public List<Transaction> findAllTransactions() {
-    return transactionService.findAll();
+    return transactionService.findAllTransactions();
   }
 
   @GetMapping("/{id}")
   public Optional<Transaction> findTransactionById(@PathVariable String id) {
-    return transactionService.findById(id);
+    return transactionService.findTransactionById(id);
   }
 
   @PutMapping
   public Transaction saveTransaction(@RequestBody Transaction transaction) {
-    return transactionService.save(transaction);
+    return transactionService.saveTransaction(transaction);
   }
 
   @DeleteMapping("/{id}")
   public void deleteTransactionById(@PathVariable String id) {
-    transactionService.deleteById(id);
+    transactionService.deleteTransactionById(id);
   }
 }

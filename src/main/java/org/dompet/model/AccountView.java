@@ -2,14 +2,14 @@ package org.dompet.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import org.dompet.utils.annotations.Column;
 import org.dompet.utils.annotations.Id;
 import org.dompet.utils.annotations.Model;
 
-@Builder
+/** Mapping for DB view */
 @Data
+@NoArgsConstructor
 @Model(table = "account_view")
 public class AccountView {
   @Id
@@ -30,6 +30,12 @@ public class AccountView {
 
   @Column(name = "is_active")
   private Boolean isActive;
+
+  @Column(name = "interest_day1to7")
+  private Double interestDay1to7;
+
+  @Column(name = "interest_after7")
+  private Double interestAfter7;
 
   @Column(name = "client_id")
   private String clientId;

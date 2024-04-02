@@ -1,18 +1,25 @@
 package org.dompet.repository;
 
 import java.util.List;
-import java.util.Optional;
+import org.dompet.jpa.CRUDOperationImpl;
 import org.dompet.model.TransferRecipient;
-import org.dompet.model.TransferRecipientId;
+import org.dompet.utils.database.DBConnector;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TransferRecipientRepository {
-  TransferRecipient save(TransferRecipient transferRecipient);
+public class TransferRecipientRepository extends CRUDOperationImpl<TransferRecipient> {
+  public TransferRecipientRepository(DBConnector dbConnector) {
+    super(dbConnector);
+  }
 
-  Optional<TransferRecipient> findById(TransferRecipientId id);
+  @Override
+  protected Class<TransferRecipient> getActualClass() {
+    return TransferRecipient.class;
+  }
 
-  List<TransferRecipient> findAll();
-
-  void deleteById(TransferRecipientId id);
+  public List<TransferRecipient> findTransferRecipientByTransferId(String transferId) {
+    List<TransferRecipient> transferRecipients =
+        getAllWithCondition("transfer_id = ?", null, null, transferId);
+    return transferRecipients.isEmpty() ? null : transferRecipients;
+  }
 }

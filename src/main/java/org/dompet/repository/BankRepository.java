@@ -1,17 +1,19 @@
 package org.dompet.repository;
 
-import java.util.List;
-import java.util.Optional;
+import org.dompet.jpa.CRUDOperationImpl;
 import org.dompet.model.Bank;
+import org.dompet.utils.database.DBConnector;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BankRepository {
-  Bank save(Bank bank);
+public class BankRepository extends CRUDOperationImpl<Bank> {
 
-  Optional<Bank> findById(String id);
+  public BankRepository(DBConnector dbConnector) {
+    super(dbConnector);
+  }
 
-  List<Bank> findAll();
-
-  void deleteById(String id);
+  @Override
+  protected Class<Bank> getActualClass() {
+    return Bank.class;
+  }
 }

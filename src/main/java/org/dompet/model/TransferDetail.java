@@ -1,5 +1,6 @@
 package org.dompet.model;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import lombok.*;
@@ -7,10 +8,11 @@ import org.dompet.utils.annotations.Column;
 import org.dompet.utils.annotations.Id;
 import org.dompet.utils.annotations.Model;
 
+/** Mapping for DB view */
 @Data
 @NoArgsConstructor
-@Model(table = "transfer")
-public class Transfer {
+@Model(table = "transfer_details")
+public class TransferDetail {
   @Id
   @Column(name = "transfer_id")
   private String transferId;
@@ -21,8 +23,8 @@ public class Transfer {
   @Column(name = "scheduled_effective_date")
   private LocalDate scheduledEffectiveDate;
 
-  @Column(name = "status_id")
-  private Integer statusId;
+  @Column(name = "transfer_status")
+  private String transferStatus;
 
   @Column(name = "description")
   private String description;
@@ -30,12 +32,18 @@ public class Transfer {
   @Column(name = "effective_date")
   private Instant effectiveDate;
 
-  @Column(name = "record_date")
-  private Instant recordDate;
+  @Column(name = "amount")
+  private BigDecimal amount;
 
   @Column(name = "sender_account_id")
   private String senderAccountId;
 
-  @Column(name = "is_internal")
-  private Boolean isInternal;
+  @Column(name = "recipient_account_id")
+  private String recipientAccountId;
+
+  @Column(name = "sender_account")
+  private Long senderAccount;
+
+  @Column(name = "recipient_account")
+  private Long recipientAccount;
 }

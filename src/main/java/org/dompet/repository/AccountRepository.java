@@ -1,17 +1,24 @@
 package org.dompet.repository;
 
 import java.util.List;
-import java.util.Optional;
+import org.dompet.jpa.CRUDOperationImpl;
 import org.dompet.model.Account;
+import org.dompet.utils.database.DBConnector;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AccountRepository {
-  Account save(Account account);
+public class AccountRepository extends CRUDOperationImpl<Account> {
+  public AccountRepository(DBConnector dbConnector) {
+    super(dbConnector);
+  }
 
-  Optional<Account> findById(String id);
+  @Override
+  protected Class<Account> getActualClass() {
+    return Account.class;
+  }
 
-  List<Account> findAll();
-
-  void deleteById(String id);
+  public List<Account> findAllByClientId(String clientId) {
+    List<Account> accounts = getAllWithCondition("client_id = ?", null, null, clientId);
+    return accounts.isEmpty() ? null : accounts;
+  }
 }

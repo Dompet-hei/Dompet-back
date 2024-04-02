@@ -1,26 +1,26 @@
 package org.dompet.model;
 
 import java.math.BigDecimal;
-import lombok.Builder;
-import lombok.Data;
+import java.time.Instant;
+import lombok.*;
 import org.dompet.utils.annotations.Column;
 import org.dompet.utils.annotations.Id;
 import org.dompet.utils.annotations.Model;
 
-@Builder
 @Data
-@Model(table = "account_balances")
-public class AccountBalance {
+@NoArgsConstructor
+@Model(table = "balance")
+public class Balance {
   @Id
+  @Column(name = "ab_id")
+  private Integer balanceId;
+
   @Column(name = "account_id")
   private String accountId;
 
-  @Column(name = "client_id")
-  private String clientId;
-
-  @Column(name = "account_number")
-  private Long accountNumber;
-
   @Column(name = "balance")
   private BigDecimal balance;
+
+  @Column(name = "last_updated")
+  private Instant lastUpdated;
 }

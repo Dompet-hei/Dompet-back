@@ -7,8 +7,8 @@ import org.dompet.utils.annotations.Column;
 import org.dompet.utils.annotations.Id;
 import org.dompet.utils.annotations.Model;
 
-@Builder
 @Data
+@NoArgsConstructor
 @Model(table = "account")
 public class Account {
   @Id
@@ -35,4 +35,10 @@ public class Account {
 
   @Column(name = "bank_id")
   private String bankId;
+
+  @Column(name = "interest_day1to7")
+  private Double interestDay1to7;
+
+  @Column(name = "interest_after7")
+  private Double interestAfter7;
 }

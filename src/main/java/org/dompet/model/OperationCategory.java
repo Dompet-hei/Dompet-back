@@ -5,8 +5,8 @@ import org.dompet.utils.annotations.Column;
 import org.dompet.utils.annotations.Id;
 import org.dompet.utils.annotations.Model;
 
-@Builder
 @Data
+@NoArgsConstructor
 @Model(table = "operation_category")
 public class OperationCategory {
   @Id
@@ -16,6 +16,6 @@ public class OperationCategory {
   @Column(name = "name")
   private String name;
 
-  @Column(name = "operation_type_id")
-  private Integer operationType;
+  @Column(name = "operation_type")
+  private String operationType;
 }
