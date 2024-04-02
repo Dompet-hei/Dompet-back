@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.dompet.model.Transfer;
+import org.dompet.model.TransferDetail;
 import org.dompet.model.TransferRecipient;
 import org.dompet.service.TransferService;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,11 @@ public class TransferController {
   @GetMapping
   public List<Transfer> findAllTransfers() {
     return transferService.findAllTransfers();
+  }
+
+  @GetMapping("/{id}/details")
+  public List<TransferDetail> findTransferDetails(@PathVariable String id) {
+    return transferService.findTransferDetails(id);
   }
 
   @GetMapping("/{id}/transferRecipient")

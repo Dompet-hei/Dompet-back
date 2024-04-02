@@ -26,8 +26,8 @@ public class TransferService {
     this.transferRecipientRepository = transferRecipientRepository;
   }
 
-  public List<TransferDetail> findAllDetails() {
-    return transferDetailRepository.getAll();
+  public List<TransferDetail> findTransferDetails(String transferId) {
+    return transferDetailRepository.findTransferDetails(transferId);
   }
 
   public Transfer saveTransfer(Transfer transfer) {

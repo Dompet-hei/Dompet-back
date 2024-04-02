@@ -17,9 +17,9 @@ public class TransferDetailRepository extends CRUDOperationImpl<TransferDetail> 
     return TransferDetail.class;
   }
 
-  List<TransferDetail> findAllByAccountId(String accountId) {
-    List<TransferDetail> transferDetail =
-        getAllWithCondition("account_id = ?", null, null, accountId);
-    return transferDetail.isEmpty() ? null : transferDetail;
+  public List<TransferDetail> findTransferDetails(String transferId) {
+    List<TransferDetail> transferDetails =
+        getAllWithCondition("transfer_id = ?", null, null, transferId);
+    return transferDetails.isEmpty() ? null : transferDetails;
   }
 }
