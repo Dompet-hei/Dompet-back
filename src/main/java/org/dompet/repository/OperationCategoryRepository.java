@@ -14,4 +14,6 @@ public interface OperationCategoryRepository {
   List<OperationCategory> findAll();
 
   void deleteById(String id);
+
+  List<OperationCategory> findAllByOperationTypeIs(String operationType);
 }

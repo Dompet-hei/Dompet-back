@@ -5,32 +5,34 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.dompet.model.OperationCategory;
 import org.dompet.service.OperationCategoryService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 @RequestMapping("/categories")
 public class OperationCategoryController {
   private final OperationCategoryService operationCategoryService;
 
   @GetMapping
   public List<OperationCategory> findAllOperationCategory() {
-    return operationCategoryService.findAll();
+    return operationCategoryService.findAllOperationCategories();
   }
 
   @GetMapping("/{id}")
   public Optional<OperationCategory> findOperationCategoryById(@PathVariable String id) {
-    return operationCategoryService.findById(id);
+    return operationCategoryService.findOperationCategoryById(id);
   }
 
-  @PutMapping
-  public OperationCategory saveOperationCategory(@RequestBody OperationCategory operationCategory) {
-    return operationCategoryService.save(operationCategory);
+  @GetMapping("/income")
+  public List<OperationCategory> findAllIncomeCategories() {
+    return operationCategoryService.findAllIncomeCategories();
   }
 
-  @DeleteMapping("/{id}")
-  public void deleteOperationCategoryById(@PathVariable String id) {
-    operationCategoryService.deleteById(id);
+  @GetMapping("/expense")
+  public List<OperationCategory> findAllExpenseCategories() {
+    return operationCategoryService.findAllExpenseCategories();
   }
 }

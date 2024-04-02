@@ -14,19 +14,19 @@ public class OperationCategoryService {
     this.operationCategoryRepository = operationCategoryRepository;
   }
 
-  public OperationCategory save(OperationCategory operationCategory) {
-    return operationCategoryRepository.save(operationCategory);
-  }
-
-  public Optional<OperationCategory> findById(String id) {
+  public Optional<OperationCategory> findOperationCategoryById(String id) {
     return operationCategoryRepository.findById(id);
   }
 
-  public List<OperationCategory> findAll() {
+  public List<OperationCategory> findAllOperationCategories() {
     return operationCategoryRepository.findAll();
   }
 
-  public void deleteById(String id) {
-    operationCategoryRepository.deleteById(id);
+  public List<OperationCategory> findAllIncomeCategories() {
+    return operationCategoryRepository.findAllByOperationTypeIs("income");
+  }
+
+  public List<OperationCategory> findAllExpenseCategories() {
+    return operationCategoryRepository.findAllByOperationTypeIs("expense");
   }
 }
