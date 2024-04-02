@@ -55,11 +55,18 @@ public abstract class CRUDOperationImpl<T> {
         switch (columnType) {
           case Types.VARCHAR -> setter.invoke(newT, resultSet.getString(columnName));
           case Types.INTEGER -> setter.invoke(newT, resultSet.getInt(columnName));
-          case Types.DATE -> setter.invoke(newT, resultSet.getDate(columnName));
+          case Types.DATE -> {
+            switch (champ.getType().getName()){
+              case "java.time.LocalDate" -> setter.invoke(newT, resultSet.getDate(columnName).toLocalDate());
+              default -> setter.invoke(newT, resultSet.getDate(columnName));
+            }
+          }
           case Types.TIMESTAMP -> setter.invoke(newT, resultSet.getTimestamp(columnName));
-          case Types.BOOLEAN -> setter.invoke(newT, resultSet.getBoolean(columnName));
-          case Types.BIGINT -> setter.invoke(newT, resultSet.getBigDecimal(columnName));
+          case Types.BOOLEAN, Types.BIT -> setter.invoke(newT, resultSet.getBoolean(columnName));
+          case Types.BIGINT -> setter.invoke(newT, resultSet.getLong(columnName));
           case Types.FLOAT -> setter.invoke(newT, resultSet.getFloat(columnName));
+          case Types.DOUBLE -> setter.invoke(newT, resultSet.getDouble(columnName));
+          case Types.NUMERIC -> setter.invoke(newT, BigDecimal.valueOf(resultSet.getFloat(columnName)));
           default -> throw new Error(
               String.format(
                   "The Type with id %s in the result set is not implemented", columnType));
