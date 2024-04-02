@@ -50,7 +50,7 @@ public abstract class CRUDOperationImpl<T> {
                         + Character.toUpperCase(champ.getName().charAt(0))
                         + champ.getName().substring(1),
                     champ.getType());
-        System.out.println(setter);
+//        System.out.println(setter);
         String columnName = getColumnName(champ);
         int columnType = resultSet.getMetaData().getColumnType(resultSet.findColumn(columnName));
         switch (columnType) {
@@ -59,20 +59,17 @@ public abstract class CRUDOperationImpl<T> {
           case Types.DATE -> {
             switch (champ.getType().getName()) {
               case "java.time.LocalDate" -> setter.invoke(
-                      newT, resultSet.getDate(columnName).toLocalDate());
+                  newT, resultSet.getDate(columnName).toLocalDate());
               default -> setter.invoke(newT, resultSet.getDate(columnName));
             }
           }
           case Types.TIMESTAMP -> {
             switch (champ.getType().getName()) {
               case "java.time.Instant" -> setter.invoke(
-                      newT, (
-                              Optional.ofNullable(
-                                      resultSet.getTimestamp(columnName)
-                              ).orElse(
-                                      Timestamp.valueOf(LocalDateTime.MIN)
-                              ).toInstant())
-              );
+                  newT,
+                  (Optional.ofNullable(resultSet.getTimestamp(columnName))
+                      .orElse(Timestamp.valueOf(LocalDateTime.MIN))
+                      .toInstant()));
               default -> setter.invoke(newT, resultSet.getTimestamp(columnName));
             }
           }
@@ -104,6 +101,37 @@ public abstract class CRUDOperationImpl<T> {
     try {
       ResultSet resultSet =
           getConnection().createStatement().executeQuery("SELECT * FROM " + getActualClassName());
+
+      while (resultSet.next()) {
+        TList.add(createT(resultSet));
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    return TList;
+  }
+
+  public final List<T> getAllWithCondition(
+      String condition, String orderBy, Integer limit, Object... parameters) {
+    List<T> TList = new ArrayList<>();
+    try {
+      StringBuilder queryBuilder =
+          new StringBuilder("SELECT * FROM " + getActualClassName() + " WHERE " + condition);
+      if (orderBy != null && !orderBy.isEmpty()) {
+        queryBuilder.append(" ORDER BY ").append(orderBy);
+      }
+      if (limit != null) {
+        queryBuilder.append(" LIMIT ").append(limit);
+      }
+
+      String query = queryBuilder.toString();
+      PreparedStatement statement = getConnection().prepareStatement(query);
+
+      for (int i = 0; i < parameters.length; i++) {
+        statement.setObject(i + 1, parameters[i]);
+      }
+
+      ResultSet resultSet = statement.executeQuery();
 
       while (resultSet.next()) {
         TList.add(createT(resultSet));
@@ -155,13 +183,13 @@ public abstract class CRUDOperationImpl<T> {
   private String createSQLInsertQuery(boolean useId) {
     StringBuilder sql = new StringBuilder("INSERT INTO %s(".formatted(getActualClassName()));
     List<String> columns =
-            Arrays.stream(getActualClass().getDeclaredFields())
-                    .filter(
-                            field ->
-                                    field.isAnnotationPresent(Column.class)
-                                            && (useId || !field.isAnnotationPresent(Id.class)))
-                    .map(this::getColumnName)
-                    .collect(Collectors.toList());
+        Arrays.stream(getActualClass().getDeclaredFields())
+            .filter(
+                field ->
+                    field.isAnnotationPresent(Column.class)
+                        && (useId || !field.isAnnotationPresent(Id.class)))
+            .map(this::getColumnName)
+            .collect(Collectors.toList());
     sql.append(String.join(",", columns));
     sql.append(") VALUES (");
     sql.append(String.join(",", Collections.nCopies(columns.size(), "?")));
@@ -170,13 +198,13 @@ public abstract class CRUDOperationImpl<T> {
     sql.append(getIdColumnName(getActualClass()));
     sql.append(") DO UPDATE SET ");
     // Update all columns except the ID
-    sql.append(columns.stream()
+    sql.append(
+        columns.stream()
             .filter(column -> !column.equals(getIdColumnName(getActualClass())))
             .map(column -> column + "=EXCLUDED." + column)
             .collect(Collectors.joining(", ")));
     return sql.toString();
   }
-
 
   public T insert(T newT, boolean useId) {
     try {
