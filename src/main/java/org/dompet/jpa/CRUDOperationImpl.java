@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import org.dompet.utils.annotations.Column;
 import org.dompet.utils.annotations.Id;
+import org.dompet.utils.annotations.Model;
 import org.dompet.utils.database.DBConnector;
 
 @AllArgsConstructor
@@ -27,6 +29,10 @@ public abstract class CRUDOperationImpl<T> {
   }
 
   private String getActualClassName() {
+    Model annotation = getActualClass().getAnnotation(Model.class);
+    if (annotation.table() != null) {
+      return "\"%s\"".formatted(annotation.table());
+    }
     return "\"%s\"".formatted(getActualClass().getSimpleName());
   }
 
@@ -44,16 +50,16 @@ public abstract class CRUDOperationImpl<T> {
                         + Character.toUpperCase(champ.getName().charAt(0))
                         + champ.getName().substring(1),
                     champ.getType());
-        int columnType =
-            resultSet.getMetaData().getColumnType(resultSet.findColumn(champ.getName()));
+        String columnName = getColumnName(champ);
+        int columnType = resultSet.getMetaData().getColumnType(resultSet.findColumn(columnName));
         switch (columnType) {
-          case Types.VARCHAR -> setter.invoke(newT, resultSet.getString(champ.getName()));
-          case Types.INTEGER -> setter.invoke(newT, resultSet.getInt(champ.getName()));
-          case Types.DATE -> setter.invoke(newT, resultSet.getDate(champ.getName()));
-          case Types.TIMESTAMP -> setter.invoke(newT, resultSet.getTimestamp(champ.getName()));
-          case Types.BOOLEAN -> setter.invoke(newT, resultSet.getBoolean(champ.getName()));
-          case Types.BIGINT -> setter.invoke(newT, resultSet.getBigDecimal(champ.getName()));
-          case Types.FLOAT -> setter.invoke(newT, resultSet.getFloat(champ.getName()));
+          case Types.VARCHAR -> setter.invoke(newT, resultSet.getString(columnName));
+          case Types.INTEGER -> setter.invoke(newT, resultSet.getInt(columnName));
+          case Types.DATE -> setter.invoke(newT, resultSet.getDate(columnName));
+          case Types.TIMESTAMP -> setter.invoke(newT, resultSet.getTimestamp(columnName));
+          case Types.BOOLEAN -> setter.invoke(newT, resultSet.getBoolean(columnName));
+          case Types.BIGINT -> setter.invoke(newT, resultSet.getBigDecimal(columnName));
+          case Types.FLOAT -> setter.invoke(newT, resultSet.getFloat(columnName));
           default -> throw new Error(
               String.format(
                   "The Type with id %s in the result set is not implemented", columnType));
@@ -102,7 +108,6 @@ public abstract class CRUDOperationImpl<T> {
     }
     return null;
   }
-  ;
 
   public final Optional<T> getById(Object id) {
     return getById("id", id.toString());
@@ -113,7 +118,7 @@ public abstract class CRUDOperationImpl<T> {
     List<String> columns =
         Arrays.stream(getActualClass().getDeclaredFields())
             .filter(champ -> !(!useId && champ.isAnnotationPresent(Id.class)))
-            .map(Field::getName)
+            .map(this::getColumnName)
             .toList();
     for (String column : columns) {
       sql.append("%s,".formatted(column));
@@ -161,7 +166,6 @@ public abstract class CRUDOperationImpl<T> {
           index++;
         }
       }
-      ;
     } catch (SQLException
         | NoSuchMethodException
         | InvocationTargetException
@@ -249,5 +253,13 @@ public abstract class CRUDOperationImpl<T> {
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  private String getColumnName(Field champ) {
+    Column annotation = champ.getAnnotation(Column.class);
+    if (annotation != null) {
+      return annotation.name();
+    }
+    return champ.getName();
   }
 }
