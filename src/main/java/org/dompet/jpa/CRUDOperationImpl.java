@@ -141,19 +141,28 @@ public abstract class CRUDOperationImpl<T> {
   private String createSQLInsertQuery(boolean useId) {
     StringBuilder sql = new StringBuilder("INSERT INTO %s(".formatted(getActualClassName()));
     List<String> columns =
-        Arrays.stream(getActualClass().getDeclaredFields())
-            .filter(
-                field ->
-                    field.isAnnotationPresent(Column.class)
-                        && (useId || !field.isAnnotationPresent(Id.class)))
-            .map(this::getColumnName)
-            .collect(Collectors.toList());
+            Arrays.stream(getActualClass().getDeclaredFields())
+                    .filter(
+                            field ->
+                                    field.isAnnotationPresent(Column.class)
+                                            && (useId || !field.isAnnotationPresent(Id.class)))
+                    .map(this::getColumnName)
+                    .collect(Collectors.toList());
     sql.append(String.join(",", columns));
     sql.append(") VALUES (");
     sql.append(String.join(",", Collections.nCopies(columns.size(), "?")));
-    sql.append(")");
+    sql.append(") ON CONFLICT (");
+    // Assuming the ID column is the conflict target
+    sql.append(getIdColumnName(getActualClass()));
+    sql.append(") DO UPDATE SET ");
+    // Update all columns except the ID
+    sql.append(columns.stream()
+            .filter(column -> !column.equals(getIdColumnName(getActualClass())))
+            .map(column -> column + "=EXCLUDED." + column)
+            .collect(Collectors.joining(", ")));
     return sql.toString();
   }
+
 
   public T insert(T newT, boolean useId) {
     try {
