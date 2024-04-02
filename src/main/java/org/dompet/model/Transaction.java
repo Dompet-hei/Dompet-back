@@ -7,9 +7,8 @@ import org.dompet.utils.annotations.Column;
 import org.dompet.utils.annotations.Id;
 import org.dompet.utils.annotations.Model;
 
-@Builder
 @Data
-@AllArgsConstructor
+@NoArgsConstructor
 @Model(table = "transaction")
 public class Transaction {
   @Id

@@ -5,9 +5,8 @@ import org.dompet.utils.annotations.Column;
 import org.dompet.utils.annotations.Id;
 import org.dompet.utils.annotations.Model;
 
-@Builder
 @Data
-@AllArgsConstructor
+@NoArgsConstructor
 @Model(table = "operation_category")
 public class OperationCategory {
   @Id

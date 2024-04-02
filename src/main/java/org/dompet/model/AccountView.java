@@ -8,9 +8,8 @@ import org.dompet.utils.annotations.Id;
 import org.dompet.utils.annotations.Model;
 
 /** Mapping for DB view */
-@Builder
 @Data
-@AllArgsConstructor
+@NoArgsConstructor
 @Model(table = "account_view")
 public class AccountView {
   @Id
