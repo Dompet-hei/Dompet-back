@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import org.dompet.model.Overdraft;
 import org.dompet.repository.OverdraftRepository;
+import org.dompet.utils.EntityUtil;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,19 +15,27 @@ public class OverdraftService {
     this.overdraftRepository = overdraftRepository;
   }
 
-  public Overdraft save(Overdraft overdraft) {
-    return overdraftRepository.save(overdraft);
+  public Overdraft saveOverdraft(Overdraft overdraft) {
+    if (overdraftRepository.findById(overdraft.getOverdraftId()).isEmpty()) {
+      return overdraftRepository.save(overdraft);
+    }
+    Overdraft existingOverdraft =
+        overdraftRepository
+            .findById(overdraft.getOverdraftId())
+            .orElseThrow(() -> new RuntimeException("Overdraft not found"));
+    EntityUtil.updateEntityFields(existingOverdraft, overdraft);
+    return overdraftRepository.save(existingOverdraft);
   }
 
-  public Optional<Overdraft> findById(String id) {
+  public Optional<Overdraft> findOverdraftById(String id) {
     return overdraftRepository.findById(id);
   }
 
-  public List<Overdraft> findAll() {
+  public List<Overdraft> findAllOverdrafts() {
     return overdraftRepository.findAll();
   }
 
-  public void deleteById(String id) {
+  public void deleteOverdraftById(String id) {
     overdraftRepository.deleteById(id);
   }
 }
