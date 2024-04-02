@@ -266,7 +266,8 @@ public abstract class CRUDOperationImpl<T> {
 
   public void deleteById(Object id) {
     try {
-      String deleteSql = "DELETE FROM " + getActualClassName() + " WHERE id = ?";
+      String idColumnName = getIdColumnName(getActualClass());
+      String deleteSql = "DELETE FROM " + getActualClassName() + " WHERE " + idColumnName + " = ?";
       PreparedStatement deleteStmt = getConnection().prepareStatement(deleteSql);
       if (id instanceof String) {
         deleteStmt.setString(1, (String) id);
@@ -277,6 +278,7 @@ public abstract class CRUDOperationImpl<T> {
       } else {
         throw new IllegalArgumentException("Unsupported id type. Only Long or Integer accepted.");
       }
+      deleteStmt.executeUpdate();
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
