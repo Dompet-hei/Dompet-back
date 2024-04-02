@@ -55,8 +55,9 @@ public abstract class CRUDOperationImpl<T> {
           case Types.VARCHAR -> setter.invoke(newT, resultSet.getString(columnName));
           case Types.INTEGER -> setter.invoke(newT, resultSet.getInt(columnName));
           case Types.DATE -> {
-            switch (champ.getType().getName()){
-              case "java.time.LocalDate" -> setter.invoke(newT, resultSet.getDate(columnName).toLocalDate());
+            switch (champ.getType().getName()) {
+              case "java.time.LocalDate" -> setter.invoke(
+                  newT, resultSet.getDate(columnName).toLocalDate());
               default -> setter.invoke(newT, resultSet.getDate(columnName));
             }
           }
@@ -65,7 +66,8 @@ public abstract class CRUDOperationImpl<T> {
           case Types.BIGINT -> setter.invoke(newT, resultSet.getLong(columnName));
           case Types.FLOAT -> setter.invoke(newT, resultSet.getFloat(columnName));
           case Types.DOUBLE -> setter.invoke(newT, resultSet.getDouble(columnName));
-          case Types.NUMERIC -> setter.invoke(newT, BigDecimal.valueOf(resultSet.getFloat(columnName)));
+          case Types.NUMERIC -> setter.invoke(
+              newT, BigDecimal.valueOf(resultSet.getFloat(columnName)));
           default -> throw new Error(
               String.format(
                   "The Type with id %s in the result set is not implemented", columnType));
@@ -101,10 +103,16 @@ public abstract class CRUDOperationImpl<T> {
   public final Optional<T> getById(String idColumn, String id) {
     try {
       ResultSet resultSet =
-              getConnection()
-                      .createStatement()
-                      .executeQuery(
-                              "SELECT * FROM " + getActualClassName() + " WHERE " + idColumn + " = '" + id + "'");
+          getConnection()
+              .createStatement()
+              .executeQuery(
+                  "SELECT * FROM "
+                      + getActualClassName()
+                      + " WHERE "
+                      + idColumn
+                      + " = '"
+                      + id
+                      + "'");
 
       while (resultSet.next()) {
         return Optional.ofNullable(createT(resultSet));
@@ -132,8 +140,12 @@ public abstract class CRUDOperationImpl<T> {
 
   private String createSQLInsertQuery(boolean useId) {
     StringBuilder sql = new StringBuilder("INSERT INTO %s(".formatted(getActualClassName()));
-    List<String> columns = Arrays.stream(getActualClass().getDeclaredFields())
-            .filter(field -> field.isAnnotationPresent(Column.class) && (useId || !field.isAnnotationPresent(Id.class)))
+    List<String> columns =
+        Arrays.stream(getActualClass().getDeclaredFields())
+            .filter(
+                field ->
+                    field.isAnnotationPresent(Column.class)
+                        && (useId || !field.isAnnotationPresent(Id.class)))
             .map(this::getColumnName)
             .collect(Collectors.toList());
     sql.append(String.join(",", columns));
@@ -149,20 +161,30 @@ public abstract class CRUDOperationImpl<T> {
       PreparedStatement pr = getConnection().prepareStatement(sql);
       int index = 1;
       for (Field field : getActualClass().getDeclaredFields()) {
-        if (field.isAnnotationPresent(Column.class) && (useId || !field.isAnnotationPresent(Id.class))) {
-          Method getter = getActualClass().getDeclaredMethod("get" + Character.toUpperCase(field.getName().charAt(0)) + field.getName().substring(1));
+        if (field.isAnnotationPresent(Column.class)
+            && (useId || !field.isAnnotationPresent(Id.class))) {
+          Method getter =
+              getActualClass()
+                  .getDeclaredMethod(
+                      "get"
+                          + Character.toUpperCase(field.getName().charAt(0))
+                          + field.getName().substring(1));
           Object value = getter.invoke(newT);
           setPreparedStatementValue(pr, index++, value, field.getType());
         }
       }
       pr.executeUpdate();
-    } catch (SQLException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+    } catch (SQLException
+        | NoSuchMethodException
+        | IllegalAccessException
+        | InvocationTargetException e) {
       throw new RuntimeException(e);
     }
     return newT;
   }
 
-  private void setPreparedStatementValue(PreparedStatement pr, int index, Object value, Class<?> type) throws SQLException {
+  private void setPreparedStatementValue(
+      PreparedStatement pr, int index, Object value, Class<?> type) throws SQLException {
     if (type == String.class) {
       pr.setString(index, (String) value);
     } else if (type == Integer.class) {

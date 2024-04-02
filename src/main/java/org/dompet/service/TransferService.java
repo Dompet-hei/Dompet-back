@@ -48,14 +48,14 @@ public class TransferService {
 
   public TransferRecipient saveTransferRecipient(TransferRecipient transferRecipient) {
     if (transferRecipientRepository.getById(transferRecipient.getTransferRecipientId()).isEmpty()) {
-      return transferRecipientRepository.save(transferRecipient);
+      return transferRecipientRepository.insert(transferRecipient, true);
     }
     TransferRecipient existingTransferRecipient =
         transferRecipientRepository
             .getById(transferRecipient.getTransferRecipientId())
             .orElseThrow(() -> new RuntimeException("TransferRecipient not found"));
     EntityUtil.updateEntityFields(existingTransferRecipient, transferRecipient);
-    return transferRecipientRepository.save(existingTransferRecipient);
+    return transferRecipientRepository.insert(existingTransferRecipient, true);
   }
 
   public Optional<TransferRecipient> findTransferRecipientById(Long id) {

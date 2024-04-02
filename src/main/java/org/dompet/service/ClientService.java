@@ -6,7 +6,6 @@ import org.dompet.model.Account;
 import org.dompet.model.Client;
 import org.dompet.repository.AccountRepository;
 import org.dompet.repository.ClientRepository;
-import org.dompet.utils.EntityUtil;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,15 +19,15 @@ public class ClientService {
   }
 
   public Client saveClient(Client client) {
-    if (clientRepository.getById(client.getClientId()).isEmpty()) {
-      return clientRepository.save(client);
-    }
-    Client existingClient =
-        clientRepository
-            .getById(client.getClientId())
-            .orElseThrow(() -> new RuntimeException("Client not found"));
-    EntityUtil.updateEntityFields(existingClient, client);
-    return clientRepository.save(existingClient);
+    //    if (clientRepository.getById(client.getClientId()).isEmpty()) {
+    return clientRepository.insert(client, true);
+    //    }
+    //    Client existingClient =
+    //        clientRepository
+    //            .getById(client.getClientId())
+    //            .orElseThrow(() -> new RuntimeException("Client not found"));
+    //    EntityUtil.updateEntityFields(existingClient, client);
+    //    return clientRepository.insert(existingClient, true);
   }
 
   public List<Account> findAllAccounts(String ClientId) {

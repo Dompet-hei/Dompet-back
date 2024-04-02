@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import org.dompet.model.*;
 import org.dompet.repository.*;
-import org.dompet.utils.EntityUtil;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -71,14 +70,15 @@ public class AccountService {
     accountRepository
         .getById(accountId)
         .orElseThrow(() -> new RuntimeException("Account not found"));
-    Balance currentBalance = balanceRepository.getById(balance.getBalanceId()).orElse(null);
-    if (currentBalance == null) {
-      balance.setAccountId(accountId);
-      return balanceRepository.save(balance);
-    }
-    EntityUtil.updateEntityFields(currentBalance, balance);
-    return balanceRepository.save(currentBalance);
+    //    Balance currentBalance = balanceRepository.getById(balance.getBalanceId()).orElse(null);
+    //    if (currentBalance == null) {
+    //      balance.setAccountId(accountId);
+    return balanceRepository.insert(balance, true);
   }
+
+  //    EntityUtil.updateEntityFields(currentBalance, balance);
+  //    return balanceRepository.insert(currentBalance, true);
+  // }
 
   // ==============================================================================
 
@@ -98,17 +98,18 @@ public class AccountService {
         .getById(accountId)
         .orElseThrow(() -> new RuntimeException("Account not found"));
 
-    if (transactionRepository.getById(transaction.getTransactionId()).isEmpty()) {
-      transaction.setAccountId(accountId);
-      return transactionRepository.save(transaction);
-    }
-    Transaction existingTransaction =
-        transactionRepository
-            .getById(transaction.getTransactionId())
-            .orElseThrow(() -> new RuntimeException("Transaction not found"));
-    EntityUtil.updateEntityFields(existingTransaction, transaction);
-    return transactionRepository.save(existingTransaction);
+    //    if (transactionRepository.getById(transaction.getTransactionId()).isEmpty()) {
+    //      transaction.setAccountId(accountId);
+    return transactionRepository.insert(transaction, true);
   }
+
+  //    Transaction existingTransaction =
+  //        transactionRepository
+  //            .getById(transaction.getTransactionId())
+  //            .orElseThrow(() -> new RuntimeException("Transaction not found"));
+  //    EntityUtil.updateEntityFields(existingTransaction, transaction);
+  //    return transactionRepository.insert(existingTransaction, true);
+  //  }
 
   // ==============================================================================
 
@@ -128,17 +129,18 @@ public class AccountService {
         .getById(senderAccountId)
         .orElseThrow(() -> new RuntimeException("Account not found"));
 
-    if (transferRepository.getById(transfer.getTransferId()).isEmpty()) {
-      transfer.setSenderAccountId(senderAccountId);
-      return transferRepository.save(transfer);
-    }
-    Transfer existingTransfer =
-        transferRepository
-            .getById(transfer.getTransferId())
-            .orElseThrow(() -> new RuntimeException("Transfer not found"));
-    EntityUtil.updateEntityFields(existingTransfer, transfer);
-    return transferRepository.save(existingTransfer);
+    //    if (transferRepository.getById(transfer.getTransferId()).isEmpty()) {
+    //      transfer.setSenderAccountId(senderAccountId);
+    return transferRepository.insert(transfer, true);
   }
+
+  //    Transfer existingTransfer =
+  //        transferRepository
+  //            .getById(transfer.getTransferId())
+  //            .orElseThrow(() -> new RuntimeException("Transfer not found"));
+  //    EntityUtil.updateEntityFields(existingTransfer, transfer);
+  //    return transferRepository.insert(existingTransfer, true);
+  //  }
 
   // ==============================================================================
 
@@ -158,17 +160,18 @@ public class AccountService {
         .getById(accountId)
         .orElseThrow(() -> new RuntimeException("Account not found"));
 
-    if (overdraftRepository.getById(overdraft.getOverdraftId()).isEmpty()) {
-      overdraft.setAccountId(accountId);
-      return overdraftRepository.save(overdraft);
-    }
-    Overdraft existingOverdraft =
-        overdraftRepository
-            .getById(overdraft.getOverdraftId())
-            .orElseThrow(() -> new RuntimeException("Overdraft not found"));
-    EntityUtil.updateEntityFields(existingOverdraft, overdraft);
-    return overdraftRepository.save(existingOverdraft);
+    //    if (overdraftRepository.getById(overdraft.getOverdraftId()).isEmpty()) {
+    //      overdraft.setAccountId(accountId);
+    return overdraftRepository.insert(overdraft, true);
   }
+
+  //    Overdraft existingOverdraft =
+  //        overdraftRepository
+  //            .getById(overdraft.getOverdraftId())
+  //            .orElseThrow(() -> new RuntimeException("Overdraft not found"));
+  //    EntityUtil.updateEntityFields(existingOverdraft, overdraft);
+  //    return overdraftRepository.insert(existingOverdraft, true);
+  //  }
 
   // ==============================================================================
 
