@@ -31,7 +31,15 @@ public class TransferService {
   }
 
   public Transfer saveTransfer(Transfer transfer) {
-    return transferRepository.save(transfer);
+    if (transferRecipientRepository.getById(transfer.getTransferId()).isEmpty()) {
+      return transferRepository.insert(transfer, true);
+    }
+    Transfer existingTransfer =
+        transferRepository
+            .getById(transfer.getTransferId())
+            .orElseThrow(() -> new RuntimeException("Transfer not found"));
+    EntityUtil.updateEntityFields(existingTransfer, transfer);
+    return transferRepository.insert(existingTransfer, true);
   }
 
   public Optional<Transfer> findTransferById(String id) {

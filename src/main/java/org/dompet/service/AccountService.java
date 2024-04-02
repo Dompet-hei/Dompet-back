@@ -35,7 +35,15 @@ public class AccountService {
   }
 
   public Account saveAccount(Account account) {
-    return accountRepository.save(account);
+    if (accountRepository.getById(account.getAccountId()).isEmpty()) {
+      return accountRepository.insert(account, true);
+    }
+    Account existingAccount =
+        accountRepository
+            .getById(account.getAccountId())
+            .orElseThrow(() -> new RuntimeException("Account not found"));
+    EntityUtil.updateEntityFields(existingAccount, account);
+    return accountRepository.insert(existingAccount, true);
   }
 
   public Optional<Account> findAccountById(String id) {
