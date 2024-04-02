@@ -3,7 +3,7 @@ openapi: 3.0.1
 info:
   title: Dompet API
   description: API for managing banking operations
-  version: 2.0.0
+  version: 2.0.1
 servers:
   - url: http://localhost:8080
     description: Local development server
@@ -335,12 +335,19 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 
-  /account/{accountId]/about:
+  /account/{accountId}/about:
     get:
       tags:
         - Account
-      summary: Get the about of an account
-      description: Retrieve the abouts of an account
+      summary: Get account details with associated client and bank information
+      description: Retrieve details about an account including associated client and bank information
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The ID of the account
+          schema:
+            type: string
       responses:
         '200':
           description: Successful response
