@@ -50,7 +50,6 @@ public abstract class CRUDOperationImpl<T> {
                         + Character.toUpperCase(champ.getName().charAt(0))
                         + champ.getName().substring(1),
                     champ.getType());
-//        System.out.println(setter);
         String columnName = getColumnName(champ);
         int columnType = resultSet.getMetaData().getColumnType(resultSet.findColumn(columnName));
         switch (columnType) {
@@ -194,10 +193,8 @@ public abstract class CRUDOperationImpl<T> {
     sql.append(") VALUES (");
     sql.append(String.join(",", Collections.nCopies(columns.size(), "?")));
     sql.append(") ON CONFLICT (");
-    // Assuming the ID column is the conflict target
     sql.append(getIdColumnName(getActualClass()));
     sql.append(") DO UPDATE SET ");
-    // Update all columns except the ID
     sql.append(
         columns.stream()
             .filter(column -> !column.equals(getIdColumnName(getActualClass())))
@@ -251,68 +248,6 @@ public abstract class CRUDOperationImpl<T> {
     } else {
       throw new IllegalArgumentException("Unsupported type: " + type.getName());
     }
-  }
-
-  public T save(T entity) {
-    try {
-      Field idField = getActualClass().getDeclaredField("id");
-      idField.setAccessible(true);
-      String id = (String) idField.get(entity);
-
-      String checkSql = "SELECT COUNT(*) FROM " + getActualClassName() + " WHERE id = ?";
-      PreparedStatement checkStmt = getConnection().prepareStatement(checkSql);
-      checkStmt.setString(1, id);
-      ResultSet checkResult = checkStmt.executeQuery();
-      checkResult.next();
-      int count = checkResult.getInt(1);
-
-      if (count > 0) {
-        String saveSql = createSQLsaveQuery();
-        PreparedStatement saveStmt = getConnection().prepareStatement(saveSql);
-        int index = 1;
-        for (Field field : getActualClass().getDeclaredFields()) {
-          if (!field.isAnnotationPresent(Id.class)) {
-            Method getter =
-                getActualClass()
-                    .getDeclaredMethod(
-                        "get"
-                            + Character.toUpperCase(field.getName().charAt(0))
-                            + field.getName().substring(1));
-            Object value = getter.invoke(entity);
-            if (value instanceof String) {
-              saveStmt.setString(index, (String) value);
-            } else if (value instanceof Integer) {
-              saveStmt.setInt(index, (Integer) value);
-            }
-            index++;
-          }
-        }
-        saveStmt.setString(index, id);
-      } else {
-        insert(entity, true);
-      }
-    } catch (SQLException
-        | NoSuchFieldException
-        | NoSuchMethodException
-        | InvocationTargetException
-        | IllegalAccessException e) {
-      throw new RuntimeException(e);
-    }
-    return entity;
-  }
-
-  private String createSQLsaveQuery() {
-    StringBuilder sql = new StringBuilder("save " + getActualClassName() + " SET ");
-    List<String> columns =
-        Arrays.stream(getActualClass().getDeclaredFields())
-            .filter(field -> !field.isAnnotationPresent(Id.class))
-            .map(field -> field.getName() + " = ?")
-            .collect(Collectors.toList());
-
-    sql.append(String.join(", ", columns));
-    sql.append(" WHERE id = ?");
-
-    return sql.toString();
   }
 
   public void deleteById(Object id) {
