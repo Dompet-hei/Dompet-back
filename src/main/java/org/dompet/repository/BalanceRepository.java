@@ -1,21 +1,27 @@
 package org.dompet.repository;
 
 import java.util.List;
-import java.util.Optional;
+import org.dompet.jpa.CRUDOperationImpl;
 import org.dompet.model.Balance;
+import org.dompet.utils.database.DBConnector;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BalanceRepository {
-  Balance save(Balance balance);
+public class BalanceRepository extends CRUDOperationImpl<Balance> {
+  public BalanceRepository(DBConnector dbConnector) {
+    super(dbConnector);
+  }
 
-  Optional<Balance> findById(Integer id);
+  @Override
+  protected Class<Balance> getActualClass() {
+    return Balance.class;
+  }
 
-  List<Balance> findAll();
+  public List<Balance> findAllByAccountId(String accountId) {
+    return null;
+  }
 
-  void deleteById(String id);
-
-  List<Balance> findAllByAccountId(String accountId);
-
-  Balance findFirstByAccountIdOrderByLastUpdatedDesc(String accountId);
+  public Balance findFirstByAccountIdOrderByLastUpdatedDesc(String accountId) {
+    return null;
+  }
 }

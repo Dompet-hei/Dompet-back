@@ -47,9 +47,7 @@ public class TransferService {
   }
 
   public TransferRecipient saveTransferRecipient(TransferRecipient transferRecipient) {
-    if (transferRecipientRepository
-        .getById(transferRecipient.getTransferRecipientId())
-        .isEmpty()) {
+    if (transferRecipientRepository.getById(transferRecipient.getTransferRecipientId()).isEmpty()) {
       return transferRecipientRepository.save(transferRecipient);
     }
     TransferRecipient existingTransferRecipient =
@@ -61,11 +59,11 @@ public class TransferService {
   }
 
   public Optional<TransferRecipient> findTransferRecipientById(Long id) {
-    return transferRecipientRepository.findById(id);
+    return transferRecipientRepository.getById(id);
   }
 
   public List<TransferRecipient> findAllTransferRecipients() {
-    return transferRecipientRepository.findAll();
+    return transferRecipientRepository.getAll();
   }
 
   public List<TransferRecipient> findTransferRecipientByTransferId(String transferId) {

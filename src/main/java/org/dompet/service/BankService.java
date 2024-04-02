@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 public class BankService {
   public final BankRepository bankRepository;
 
-  public BankService(BankRepository BankRepository) {
-    this.bankRepository = BankRepository;
+  public BankService(BankRepository bankRepository) {
+    this.bankRepository = bankRepository;
   }
 
   public Optional<Bank> findBankById(String id) {

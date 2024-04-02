@@ -1,19 +1,23 @@
 package org.dompet.repository;
 
 import java.util.List;
-import java.util.Optional;
+import org.dompet.jpa.CRUDOperationImpl;
 import org.dompet.model.AccountStatement;
+import org.dompet.utils.database.DBConnector;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AccountStatementRepository {
-  AccountStatement save(AccountStatement accountStatement);
+public class AccountStatementRepository extends CRUDOperationImpl<AccountStatement> {
+  public AccountStatementRepository(DBConnector dbConnector) {
+    super(dbConnector);
+  }
 
-  Optional<AccountStatement> findById(String id);
+  @Override
+  protected Class<AccountStatement> getActualClass() {
+    return AccountStatement.class;
+  }
 
-  List<AccountStatement> findAll();
-
-  void deleteById(String id);
-
-  List<AccountStatement> findAllByAccountId(String accountId);
+  public List<AccountStatement> findAllByAccountId(String accountId) {
+    return null;
+  }
 }

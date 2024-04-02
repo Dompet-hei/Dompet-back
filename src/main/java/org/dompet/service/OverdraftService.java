@@ -16,12 +16,12 @@ public class OverdraftService {
   }
 
   public Overdraft saveOverdraft(Overdraft overdraft) {
-    if (overdraftRepository.findById(overdraft.getOverdraftId()).isEmpty()) {
+    if (overdraftRepository.getById(overdraft.getOverdraftId()).isEmpty()) {
       return overdraftRepository.save(overdraft);
     }
     Overdraft existingOverdraft =
         overdraftRepository
-            .findById(overdraft.getOverdraftId())
+            .getById(overdraft.getOverdraftId())
             .orElseThrow(() -> new RuntimeException("Overdraft not found"));
     EntityUtil.updateEntityFields(existingOverdraft, overdraft);
     return overdraftRepository.save(existingOverdraft);

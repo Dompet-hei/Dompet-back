@@ -69,9 +69,9 @@ public class AccountService {
       throw new IllegalArgumentException("Balance cannot be null");
     }
     accountRepository
-        .findById(accountId)
+        .getById(accountId)
         .orElseThrow(() -> new RuntimeException("Account not found"));
-    Balance currentBalance = balanceRepository.findById(balance.getBalanceId()).orElse(null);
+    Balance currentBalance = balanceRepository.getById(balance.getBalanceId()).orElse(null);
     if (currentBalance == null) {
       balance.setAccountId(accountId);
       return balanceRepository.save(balance);
@@ -95,16 +95,16 @@ public class AccountService {
       throw new IllegalArgumentException("Transaction cannot be null");
     }
     accountRepository
-        .findById(accountId)
+        .getById(accountId)
         .orElseThrow(() -> new RuntimeException("Account not found"));
 
-    if (transactionRepository.findById(transaction.getTransactionId()).isEmpty()) {
+    if (transactionRepository.getById(transaction.getTransactionId()).isEmpty()) {
       transaction.setAccountId(accountId);
       return transactionRepository.save(transaction);
     }
     Transaction existingTransaction =
         transactionRepository
-            .findById(transaction.getTransactionId())
+            .getById(transaction.getTransactionId())
             .orElseThrow(() -> new RuntimeException("Transaction not found"));
     EntityUtil.updateEntityFields(existingTransaction, transaction);
     return transactionRepository.save(existingTransaction);
@@ -125,16 +125,16 @@ public class AccountService {
       throw new IllegalArgumentException("Transfer cannot be null");
     }
     accountRepository
-        .findById(senderAccountId)
+        .getById(senderAccountId)
         .orElseThrow(() -> new RuntimeException("Account not found"));
 
-    if (transferRepository.findById(transfer.getTransferId()).isEmpty()) {
+    if (transferRepository.getById(transfer.getTransferId()).isEmpty()) {
       transfer.setSenderAccountId(senderAccountId);
       return transferRepository.save(transfer);
     }
     Transfer existingTransfer =
         transferRepository
-            .findById(transfer.getTransferId())
+            .getById(transfer.getTransferId())
             .orElseThrow(() -> new RuntimeException("Transfer not found"));
     EntityUtil.updateEntityFields(existingTransfer, transfer);
     return transferRepository.save(existingTransfer);
@@ -155,16 +155,16 @@ public class AccountService {
       throw new IllegalArgumentException("Overdraft cannot be null");
     }
     accountRepository
-        .findById(accountId)
+        .getById(accountId)
         .orElseThrow(() -> new RuntimeException("Account not found"));
 
-    if (overdraftRepository.findById(overdraft.getOverdraftId()).isEmpty()) {
+    if (overdraftRepository.getById(overdraft.getOverdraftId()).isEmpty()) {
       overdraft.setAccountId(accountId);
       return overdraftRepository.save(overdraft);
     }
     Overdraft existingOverdraft =
         overdraftRepository
-            .findById(overdraft.getOverdraftId())
+            .getById(overdraft.getOverdraftId())
             .orElseThrow(() -> new RuntimeException("Overdraft not found"));
     EntityUtil.updateEntityFields(existingOverdraft, overdraft);
     return overdraftRepository.save(existingOverdraft);

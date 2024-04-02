@@ -20,12 +20,12 @@ public class ClientService {
   }
 
   public Client saveClient(Client client) {
-    if (clientRepository.findById(client.getClientId()).isEmpty()) {
+    if (clientRepository.getById(client.getClientId()).isEmpty()) {
       return clientRepository.save(client);
     }
     Client existingClient =
         clientRepository
-            .findById(client.getClientId())
+            .getById(client.getClientId())
             .orElseThrow(() -> new RuntimeException("Client not found"));
     EntityUtil.updateEntityFields(existingClient, client);
     return clientRepository.save(existingClient);
