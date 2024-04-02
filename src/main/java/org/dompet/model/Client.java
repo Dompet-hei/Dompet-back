@@ -8,6 +8,7 @@ import org.dompet.utils.annotations.Model;
 
 @Builder
 @Data
+@AllArgsConstructor
 @Model(table = "client")
 public class Client {
   @Id

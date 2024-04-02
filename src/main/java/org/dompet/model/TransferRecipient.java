@@ -1,5 +1,6 @@
 package org.dompet.model;
 
+import java.math.BigDecimal;
 import lombok.*;
 import org.dompet.utils.annotations.Column;
 import org.dompet.utils.annotations.Id;
@@ -7,13 +8,19 @@ import org.dompet.utils.annotations.Model;
 
 @Builder
 @Data
+@AllArgsConstructor
 @Model(table = "transfer_recipient")
 public class TransferRecipient {
-  @Id private TransferRecipientId id;
+  @Id
+  @Column(name = "transfer_recipient_id")
+  private Long transferRecipientId;
 
   @Column(name = "transfer_id")
-  private Transfer transferId;
+  private String transferId;
 
   @Column(name = "recipient_account_id")
-  private Account recipientAccountId;
+  private String recipientAccountId;
+
+  @Column(name = "amount")
+  private BigDecimal amount;
 }
