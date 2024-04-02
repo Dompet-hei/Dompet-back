@@ -1,0 +1,1690 @@
+---
+openapi: 3.0.1
+info:
+  title: Dompet API
+  description: API for managing banking operations
+  version: 2.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+tags:
+  - name: Account
+  - name: Account-Balance
+  - name: Account-Transaction
+  - name: Account-Transfer
+  - name: Account-Overdraft
+  - name: Bank
+  - name: Client
+  - name: OperationCategory
+  - name: Overdraft
+  - name: Transaction
+  - name: Transfer
+  - name: TransferRecipient
+
+paths:
+  /transfer:
+    get:
+      tags:
+        - Transfer
+      summary: Get all transfers
+      description: Retrieve a list of all transfers
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transfer'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - Transfer
+      summary: Create a new transfer
+      description: Create a new transfer between accounts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transfer'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transfer'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /transferRecipient:
+    get:
+      tags:
+        - TransferRecipient
+      summary: Get all transfer recipients
+      description: Retrieve a list of all transfer recipients
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TransferRecipient'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - TransferRecipient
+      summary: Create a new transfer recipient
+      description: Create a new transfer recipient
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferRecipient'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferRecipient'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /transaction:
+    get:
+      tags:
+        - Transaction
+      summary: Get all transactions
+      description: Retrieve a list of all transactions
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - Transaction
+      summary: Create a new transaction
+      description: Create a new transaction for an account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /overdraft:
+    get:
+      tags:
+        - Overdraft
+      summary: Get all overdrafts
+      description: Retrieve a list of all overdrafts
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Overdraft'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - Overdraft
+      summary: Create a new overdraft
+      description: Create a new overdraft for an account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Overdraft'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Overdraft'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /client:
+    get:
+      tags:
+        - Client
+      summary: Get all clients
+      description: Retrieve a list of all clients
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Client'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - Client
+      summary: Create a new client
+      description: Create a new client
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /account:
+    get:
+      tags:
+        - Account
+      summary: Get all accounts
+      description: Retrieve a list of all accounts
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Account'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - Account
+      summary: Create a new account
+      description: Create a new account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /account/{accountId}:
+    get:
+      tags:
+        - Account
+      summary: Get an account by ID
+      description: Retrieve an account by its ID
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The ID of the account
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    delete:
+      tags:
+        - Account
+      summary: Delete an Account
+      description: Delete an Account by their ID
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The ID of the Account
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /account/{accountId]/about:
+    get:
+      tags:
+        - Account
+      summary: Get the about of an account
+      description: Retrieve the abouts of an account
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountView'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+
+  /account/{accountId}/transfers:
+    get:
+      tags:
+        - Account-Transfer
+      summary: Get transfers for an account
+      description: Retrieve a list of transfers associated with an account
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The ID of the account
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transfer'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - Account-Transfer
+      summary: Create a new transfer for an account
+      description: Create a new transfer for an account
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The ID of the account
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transfer'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transfer'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /account/{accountId}/transfers/{transferId}:
+    get:
+      tags:
+        - Account-Transfer
+      summary: Find a transaction by ID for an account
+      description: Retrieve a transaction associated with an account
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The ID of the account
+          schema:
+            type: string
+        - name: transferId
+          in: path
+          required: true
+          description: The ID of the transfer
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: string
+                example: 'Category updated successfully'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+
+  /account/{accountId}/transactions:
+    get:
+      tags:
+        - Account-Transaction
+      summary: Get transactions for an account
+      description: Retrieve a list of transactions associated with an account
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The ID of the account
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - Account-Transaction
+      summary: Create a new transaction for an account
+      description: Create a new transaction for an account
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The ID of the account
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /account/{accountId}/transactions/{transactionId}:
+    get:
+      tags:
+        - Account-Transaction
+      summary: Find a transaction by ID for an account
+      description: Retrieve a transaction associated with an account
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The ID of the account
+          schema:
+            type: string
+        - name: transactionId
+          in: path
+          required: true
+          description: The ID of the transaction
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: string
+                example: 'Category updated successfully'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /account/{accountId}/overdraft:
+    get:
+      tags:
+        - Account-Overdraft
+      summary: Get overdrafts for an account
+      description: Retrieve a list of overdrafts associated with an account
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The ID of the account
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Overdraft'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - Account-Overdraft
+      summary: Create a new overdraft for an account
+      description: Create a new overdraft for an account
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The ID of the account
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Overdraft'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Overdraft'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /account/{accountId}/overdraft/{overdraftId}:
+    get:
+      tags:
+        - Account-Overdraft
+      summary: Get an overdraft for an account
+      description: Retrieve an overdraft associated with an account
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The ID of the account
+          schema:
+            type: string
+        - name: overdraftId
+          in: path
+          required: true
+          description: The ID of the Overdraft
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Overdraft'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /account/{accountId}/balance:
+    get:
+      tags:
+        - Account-Balance
+      summary: Get balances for an account
+      description: Retrieve a list of balances associated with an account
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The ID of the account
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Balance'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - Account-Balance
+      summary: Update the balance for an account
+      description: Update the balance for an account
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The ID of the account
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Balance'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Balance'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /account/{accountId}/latestBalance:
+    get:
+      tags:
+        - Account-Balance
+      summary: Get latest balance for an account
+      description: Retrieve the latest balance associated with an account
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The ID of the account
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Balance'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /account/{accountId}/statement:
+    post:
+      tags:
+        - Account
+      summary: Generate account statement
+      description: Generate an account statement for a given account
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          description: The ID of the account
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountStatement'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /transferRecipient/{id}:
+    get:
+      tags:
+        - TransferRecipient
+      summary: Get a transfer recipient by ID
+      description: Retrieve a transfer recipient by its ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the transfer recipient
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferRecipient'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - TransferRecipient
+      summary: Delete a transfer recipient
+      description: Delete a transfer recipient by its ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the transfer recipient
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /transfer/{id}:
+    get:
+      tags:
+        - Transfer
+      summary: Get a transfer by ID
+      description: Retrieve a transfer by its ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the transfer
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transfer'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Transfer
+      summary: Delete a transfer
+      description: Delete a transfer by its ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the transfer
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /transfer/{id}/transferRecipient:
+    get:
+      tags:
+        - Transfer
+      summary: Get transfer recipients for a transfer
+      description: Retrieve a list of transfer recipients associated with a transfer
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the transfer
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TransferRecipient'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /transaction/{id}:
+    get:
+      tags:
+        - Transaction
+      summary: Get a transaction by ID
+      description: Retrieve a transaction by its ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the transaction
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Transaction
+      summary: Delete a transaction
+      description: Delete a transaction by its ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the transaction
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /overdraft/{id}:
+    get:
+      tags:
+        - Overdraft
+      summary: Get an overdraft by ID
+      description: Retrieve an overdraft by its ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the overdraft
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Overdraft'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Overdraft
+      summary: Delete an overdraft
+      description: Delete an overdraft by its ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the overdraft
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /client/{id}:
+    get:
+      tags:
+        - Client
+      summary: Get a client by ID
+      description: Retrieve a client by their ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the client
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Client
+      summary: Delete a client
+      description: Delete a client by their ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the client
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /client/{clientId}/account:
+    get:
+      tags:
+        - Client
+      summary: Get accounts for a client
+      description: Retrieve a list of accounts associated with a client
+      parameters:
+        - name: clientId
+          in: path
+          required: true
+          description: The ID of the client
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Account'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /categories:
+    get:
+      tags:
+        - OperationCategory
+      summary: Get all operation categories
+      description: Retrieve a list of all operation categories
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OperationCategory'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /categories/{id}:
+    get:
+      tags:
+        - OperationCategory
+      summary: Get an operation category by ID
+      description: Retrieve an operation category by its ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the operation category
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationCategory'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /categories/income:
+    get:
+      tags:
+        - OperationCategory
+      summary: Get all income categories
+      description: Retrieve a list of all income operation categories
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OperationCategory'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /categories/expense:
+    get:
+      tags:
+        - OperationCategory
+      summary: Get all expense categories
+      description: Retrieve a list of all expense operation categories
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OperationCategory'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /bank:
+    get:
+      tags:
+        - Bank
+      summary: Get all banks
+      description: Retrieve a list of all banks
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Bank'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /bank/{id}:
+    get:
+      tags:
+        - Bank
+      summary: Get a bank by ID
+      description: Retrieve a bank by its ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the bank
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bank'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  responses:
+    UnauthorizedError:
+      description: Authentication information is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 401
+            message: Unauthorized
+    NotFoundError:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 404
+            message: Not Found
+    InternalServerError:
+      description: An unexpected error occurred on the server
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 500
+            message: Internal Server Error
+    BadRequestError:
+      description: The request was malformed or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 400
+            message: Bad Request
+    ConflictError:
+      description: The request could not be completed due to a conflict
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 409
+            message: Conflict
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The HTTP status code
+        message:
+          type: string
+          description: A human-readable error message
+
+    Transfer:
+      type: object
+      description: Represents a transfer between accounts
+      required:
+        - scheduledEffectiveDate
+        - senderAccountId
+        - uniqueReference
+      properties:
+        transferId:
+          type: string
+          maxLength: 50
+          description: The unique identifier of the transfer
+        uniqueReference:
+          type: string
+          maxLength: 20
+          description: A unique reference for the transfer
+        scheduledEffectiveDate:
+          type: string
+          format: date
+          description: The scheduled effective date of the transfer
+        statusId:
+          type: integer
+          format: int32
+          description: The status ID of the transfer
+        description:
+          type: string
+          description: A description of the transfer
+        effectiveDate:
+          type: string
+          format: date-time
+          description: The effective date of the transfer
+        recordDate:
+          type: string
+          format: date-time
+          description: The date the transfer was recorded
+        senderAccountId:
+          type: string
+          description: The ID of the account sending the transfer
+        isInternal:
+          type: boolean
+          description: Indicates if the transfer is internal to the bank
+      example:
+        transferId: 'TR12345'
+        uniqueReference: 'REF12345'
+        scheduledEffectiveDate: '2023-05-01'
+        statusId: 1
+        description: 'Monthly salary transfer'
+        effectiveDate: '2023-05-01T12:00:00Z'
+        recordDate: '2023-04-30T14:30:00Z'
+        senderAccountId: 'AC12345'
+        isInternal: true
+
+    TransferRecipient:
+      type: object
+      description: Represents a recipient of a transfer
+      required:
+        - recipientAccountId
+        - transferId
+      properties:
+        transferRecipientId:
+          type: integer
+          format: int64
+          description: The unique identifier of the transfer recipient
+        transferId:
+          type: string
+          description: The ID of the associated transfer
+        recipientAccountId:
+          type: string
+          description: The ID of the recipient account
+        amount:
+          type: number
+          description: The amount transferred to the recipient
+      example:
+        transferRecipientId: 1
+        transferId: 'TR12345'
+        recipientAccountId: 'AC67890'
+        amount: 100000
+
+    Transaction:
+      type: object
+      description: Represents a transaction associated with an account
+      required:
+        - accountId
+        - amount
+        - categoryId
+        - effectiveDate
+      properties:
+        transactionId:
+          type: string
+          maxLength: 50
+          description: The unique identifier of the transaction
+        accountId:
+          type: string
+          description: The ID of the associated account
+        categoryId:
+          type: string
+          description: The ID of the category for the transaction
+        effectiveDate:
+          type: string
+          format: date-time
+          description: The effective date of the transaction
+        recordDate:
+          type: string
+          format: date-time
+          description: The date the transaction was recorded
+        amount:
+          type: number
+          description: The amount of the transaction
+        description:
+          type: string
+          description: A description of the transaction
+      example:
+        transactionId: 'TX12345'
+        accountId: 'AC12345'
+        categoryId: 'CAT1'
+        effectiveDate: '2023-04-01T10:00:00Z'
+        recordDate: '2023-04-01T12:30:00Z'
+        amount: 500
+        description: 'Grocery shopping'
+
+    Overdraft:
+      type: object
+      description: Represents an overdraft associated with an account
+      properties:
+        overdraftId:
+          type: string
+          maxLength: 50
+          description: The unique identifier of the overdraft
+        accountId:
+          type: string
+          description: The ID of the associated account
+        overdraftAllowed:
+          type: boolean
+          description: Indicates if overdraft is allowed on the account
+        overdraftBalance:
+          type: number
+          description: The current overdraft balance
+        overdraftStartDate:
+          type: string
+          format: date
+          description: The start date of the overdraft
+        overdraftReimbursementDate:
+          type: string
+          format: date
+          description: The date by which the overdraft must be reimbursed
+      example:
+        overdraftId: 'OD12345'
+        accountId: 'AC12345'
+        overdraftAllowed: true
+        overdraftBalance: 1000
+        overdraftStartDate: '2023-04-01'
+        overdraftReimbursementDate: '2023-04-30'
+
+    Client:
+      type: object
+      description: Represents a client of the bank
+      required:
+        - birthDate
+        - firstName
+        - lastName
+      properties:
+        clientId:
+          type: string
+          maxLength: 50
+          description: The unique identifier of the client
+        lastName:
+          type: string
+          maxLength: 100
+          description: The last name of the client
+        firstName:
+          type: string
+          maxLength: 100
+          description: The first name of the client
+        birthDate:
+          type: string
+          format: date
+          description: The date of birth of the client
+      example:
+        clientId: 'CL12345'
+        lastName: 'Doe'
+        firstName: 'John'
+        birthDate: '1990-01-01'
+
+    Account:
+      type: object
+      description: Represents a bank account
+      required:
+        - accountNumber
+        - bankId
+        - clientId
+      properties:
+        accountId:
+          type: string
+          maxLength: 50
+          description: The unique identifier of the account
+        accountNumber:
+          type: integer
+          format: int64
+          description: The account number
+        creationDate:
+          type: string
+          format: date
+          description: The date the account was created
+        monthlyNetSalary:
+          type: number
+          description: The client's monthly net salary
+        defaultCurrencyCode:
+          type: string
+          maxLength: 3
+          description: The default currency code for the account
+        isActive:
+          type: boolean
+          description: Indicates if the account is active
+        clientId:
+          type: string
+          description: The ID of the associated client
+        bankId:
+          type: string
+          description: The ID of the associated bank
+        interestDay1to7:
+          type: number
+          format: double
+          description: The interest rate for the first 7 days of overdraft
+        interestAfter7:
+          type: number
+          format: double
+          description: The interest rate after the first 7 days of overdraft
+      example:
+        accountId: 'AC12345'
+        accountNumber: 123456789
+        creationDate: '2020-01-01'
+        monthlyNetSalary: 50000
+        defaultCurrencyCode: 'USD'
+        isActive: true
+        clientId: 'CL12345'
+        bankId: 'BK1'
+        interestDay1to7: 1.0
+        interestAfter7: 2.0
+
+    Balance:
+      type: object
+      description: Represents the balance of an account
+      required:
+        - accountId
+        - balance
+      properties:
+        balanceId:
+          type: integer
+          format: int32
+          description: The unique identifier of the balance
+        accountId:
+          type: string
+          description: The ID of the associated account
+        balance:
+          type: number
+          description: The current balance of the account
+        lastUpdated:
+          type: string
+          format: date-time
+          description: The date and time when the balance was last updated
+      example:
+        balanceId: 1
+        accountId: 'AC12345'
+        balance: 10000
+        lastUpdated: '2023-04-01T12:00:00Z'
+
+    AccountStatement:
+      type: object
+      description: Represents a statement for an account
+      properties:
+        accountId:
+          type: string
+          maxLength: 50
+          description: The ID of the associated account
+        accountNumber:
+          type: integer
+          format: int64
+          description: The account number
+        effectiveDate:
+          type: string
+          format: date-time
+          description: The effective date of the statement entry
+        category:
+          type: string
+          description: The category of the statement entry
+        creditAmount:
+          type: number
+          description: The credit amount of the statement entry
+        debitAmount:
+          type: number
+          description: The debit amount of the statement entry
+        reason:
+          type: string
+          description: The reason for the statement entry
+        operationType:
+          type: string
+          description: The type of operation for the statement entry
+        balance:
+          type: number
+          description: The balance after the statement entry
+      example:
+        accountId: 'AC12345'
+        accountNumber: 123456789
+        effectiveDate: '2023-04-01T10:00:00Z'
+        category: 'Groceries'
+        creditAmount: 0
+        debitAmount: 500
+        reason: 'Grocery shopping'
+        operationType: 'Debit'
+        balance: 9500
+
+    OperationCategory:
+      type: object
+      description: Represents a category for a financial operation
+      required:
+        - name
+        - operationType
+      properties:
+        categoryId:
+          type: string
+          maxLength: 50
+          description: The unique identifier of the category
+        name:
+          type: string
+          maxLength: 50
+          description: The name of the category
+        operationType:
+          type: string
+          maxLength: 50
+          description: The type of operation for the category (e.g., income, expense)
+      example:
+        categoryId: 'CAT1'
+        name: 'Groceries'
+        operationType: 'Expense'
+
+    Bank:
+      type: object
+      description: Represents a bank
+      required:
+        - name
+      properties:
+        bankId:
+          type: string
+          maxLength: 50
+          description: The unique identifier of the bank
+        name:
+          type: string
+          maxLength: 100
+          description: The name of the bank
+      example:
+        bankId: 'BK1'
+        name: 'My Bank'
+
+    AccountView:
+      type: object
+      description: Represents a view of an account with associated client and bank details
+      properties:
+        accountId:
+          type: string
+          maxLength: 50
+          description: The unique identifier of the account
+        accountNumber:
+          type: integer
+          format: int64
+          description: The account number
+        creationDate:
+          type: string
+          format: date
+          description: The date the account was created
+        monthlyNetSalary:
+          type: number
+          description: The client's monthly net salary
+        defaultCurrencyCode:
+          type: string
+          maxLength: 3
+          description: The default currency code for the account
+        isActive:
+          type: boolean
+          description: Indicates if the account is active
+        interestDay1to7:
+          type: number
+          format: double
+          description: The interest rate for the first 7 days of overdraft
+        interestAfter7:
+          type: number
+          format: double
+          description: The interest rate after the first 7 days of overdraft
+        clientId:
+          type: string
+          maxLength: 50
+          description: The unique identifier of the associated client
+        lastName:
+          type: string
+          maxLength: 100
+          description: The last name of the associated client
+        firstName:
+          type: string
+          maxLength: 100
+          description: The first name of the associated client
+        birthDate:
+          type: string
+          format: date
+          description: The date of birth of the associated client
+        bankId:
+          type: string
+          maxLength: 50
+          description: The unique identifier of the associated bank
+        bankName:
+          type: string
+          maxLength: 100
+          description: The name of the associated bank
+      example:
+        accountId: 'AC12345'
+        accountNumber: 123456789
+        creationDate: '2020-01-01'
+        monthlyNetSalary: 50000
+        defaultCurrencyCode: 'USD'
+        isActive: true
+        interestDay1to7: 1.0
+        interestAfter7: 2.0
+        clientId: 'CL12345'
+        lastName: 'Doe'
+        firstName: 'John'
+        birthDate: '1990-01-01'
+        bankId: 'BK1'
+        bankName: 'My Bank'
