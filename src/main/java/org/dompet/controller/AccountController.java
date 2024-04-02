@@ -11,45 +11,56 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 @RequestMapping("/account")
 public class AccountController {
   private final AccountService accountService;
 
   @GetMapping
   public List<Account> findAllAccounts() {
-    return accountService.findAll();
+    return accountService.findAllAccounts();
   }
 
   @GetMapping("/{accountId}")
   public Optional<Account> findAccountById(@PathVariable String accountId) {
-    return accountService.findById(accountId);
+    return accountService.findAccountById(accountId);
   }
 
   @PutMapping
   public Account saveAccount(@RequestBody Account account) {
-    return accountService.save(account);
+    return accountService.saveAccount(account);
   }
 
   @DeleteMapping("/{accountId}")
   public void deleteAccountById(@PathVariable String accountId) {
-    accountService.deleteById(accountId);
+    accountService.deleteAccountById(accountId);
   }
+
   @GetMapping("/{accountId}/about")
   public AccountView getAbout(@PathVariable String accountId) {
     return accountService.findAbout(accountId);
   }
 
+  // Balance endpoints
+
   @GetMapping("/{accountId}/balance")
-  public AccountBalance getBalance(@PathVariable String accountId) {
+  public List<Balance> getBalance(@PathVariable String accountId) {
     return accountService.findBalance(accountId);
   }
 
+  @PutMapping("/{accountId}/balance")
+  public Balance crupdateBalance(@PathVariable String accountId, @RequestBody Balance balance) {
+    return accountService.saveBalance(accountId, balance);
+  }
+
+  @GetMapping("/{accountId}/latestBalance")
+  public Balance getLatestBalance(@PathVariable String accountId) {
+    return accountService.findLatestBalance(accountId);
+  }
 
   // Transaction endpoints
   @GetMapping("/{accountId}/transactions")
   public List<Transaction> findAllTransactionsByAccountId(@PathVariable String accountId) {
-    return accountService.findTransactions(accountId);
+    return accountService.findAllTransactions(accountId);
   }
 
   @GetMapping("/{accountId}/transactions/{transactionId}")
@@ -58,23 +69,10 @@ public class AccountController {
     return accountService.findTransaction(accountId, transactionId);
   }
 
-  @PostMapping("/{accountId}/transactions")
-  public ResponseEntity<String> saveTransaction(
+  @PutMapping("/{accountId}/transactions")
+  public Transaction crupdateTransaction(
       @PathVariable String accountId, @RequestBody Transaction transaction) {
-    return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
-        .body("Saving a new transaction for account " + accountId + " is not implemented yet.");
-  }
-
-  @PutMapping("/{accountId}/transactions/{transactionId}")
-  public ResponseEntity<String> updateTransaction(
-      @PathVariable String accountId, @PathVariable String transactionId) {
-    return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
-        .body(
-            "Updating transaction "
-                + transactionId
-                + " for account "
-                + accountId
-                + " is not implemented yet.");
+    return accountService.saveTransaction(accountId, transaction);
   }
 
   @PutMapping("/{accountId}/transactions/{transactionId}/category")
@@ -89,22 +87,10 @@ public class AccountController {
                 + " is not implemented yet.");
   }
 
-  @DeleteMapping("/{accountId}/transactions/{transactionId}")
-  public ResponseEntity<String> deleteTransaction(
-      @PathVariable String accountId, @PathVariable String transactionId) {
-    return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
-        .body(
-            "Deleting transaction "
-                + transactionId
-                + " for account "
-                + accountId
-                + " is not implemented yet.");
-  }
-
   // Transfer endpoints
   @GetMapping("/{accountId}/transfers")
   public List<Transfer> findAllTransfersByAccountId(@PathVariable String accountId) {
-    return accountService.findTransfers(accountId);
+    return accountService.findAllTransfers(accountId);
   }
 
   @GetMapping("/{accountId}/transfers/{transferId}")
@@ -113,51 +99,20 @@ public class AccountController {
     return accountService.findTransfer(accountId, transferId);
   }
 
-  @PostMapping("/{accountId}/transfers")
-  public ResponseEntity<String> saveTransfer(
-      @PathVariable String accountId, @RequestBody Transfer transfer) {
-    return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
-        .body("Saving a new transfer for account " + accountId + " is not implemented yet.");
-  }
-
-  @PutMapping("/{accountId}/transfers/{transferId}")
-  public ResponseEntity<String> updateTransfer(
-      @PathVariable String accountId, @PathVariable String transferId) {
-    return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
-        .body(
-            "Updating transfer "
-                + transferId
-                + " for account "
-                + accountId
-                + " is not implemented yet.");
-  }
-
-  @DeleteMapping("/{accountId}/transfers/{transferId}")
-  public ResponseEntity<String> deleteTransfer(
-      @PathVariable String accountId, @PathVariable String transferId) {
-    return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
-        .body(
-            "Deleting transfer "
-                + transferId
-                + " for account "
-                + accountId
-                + " is not implemented yet.");
+  @PutMapping("/{accountId}/transfers")
+  public Transfer crupdateTransfer(@PathVariable String accountId, @RequestBody Transfer transfer) {
+    return accountService.saveTransfer(accountId, transfer);
   }
 
   @PostMapping("/{accountId}/statement")
-  public ResponseEntity<String> generateStatement(
-      @PathVariable String accountId, @RequestBody Statement statement) {
-    return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
-        .body(
-            "Generating statement information for account "
-                + accountId
-                + " is not implemented yet.");
+  public List<AccountStatement> generateStatement(@PathVariable String accountId) {
+    return accountService.generateStatement(accountId);
   }
 
   // Overdraft endpoints
   @GetMapping("/{accountId}/overdraft")
   public List<Overdraft> findOverdrafts(@PathVariable String accountId) {
-    return accountService.findOverdrafts(accountId);
+    return accountService.findAllOverdrafts(accountId);
   }
 
   @GetMapping("/{accountId}/overdraft/{overdraftId}")
@@ -166,24 +121,9 @@ public class AccountController {
     return accountService.findOverdraft(accountId, overdraftId);
   }
 
-  @PostMapping("/{accountId}/overdraft")
-  public ResponseEntity<String> saveOverdraft(
-      @PathVariable String accountId, @RequestBody Overdraft overdraft) {
-    return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
-        .body("Saving overdraft information for account " + accountId + " is not implemented yet.");
-  }
-
   @PutMapping("/{accountId}/overdraft")
-  public ResponseEntity<String> updateOverdraft(@PathVariable String accountId) {
-    return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
-        .body(
-            "Updating overdraft information for account " + accountId + " is not implemented yet.");
-  }
-
-  @DeleteMapping("/{accountId}/overdraft")
-  public ResponseEntity<String> deleteOverdraft(@PathVariable String accountId) {
-    return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
-        .body(
-            "Deleting overdraft information for account " + accountId + " is not implemented yet.");
+  public Overdraft crupdateOverdraft(
+      @PathVariable String accountId, @RequestBody Overdraft overdraft) {
+    return accountService.saveOverdraft(accountId, overdraft);
   }
 }
