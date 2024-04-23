@@ -55,6 +55,7 @@ public class TransferService {
   }
 
   public TransferRecipient saveTransferRecipient(TransferRecipient transferRecipient) {
+    System.out.println(transferRecipient);
     if (transferRecipientRepository.getById(transferRecipient.getTransferRecipientId()).isEmpty()) {
       return transferRecipientRepository.insert(transferRecipient, true);
     }
@@ -63,6 +64,7 @@ public class TransferService {
             .getById(transferRecipient.getTransferRecipientId())
             .orElseThrow(() -> new RuntimeException("TransferRecipient not found"));
     EntityUtil.updateEntityFields(existingTransferRecipient, transferRecipient);
+    System.out.println(existingTransferRecipient);
     return transferRecipientRepository.insert(existingTransferRecipient, true);
   }
 

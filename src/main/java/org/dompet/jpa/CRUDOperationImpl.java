@@ -57,20 +57,22 @@ public abstract class CRUDOperationImpl<T> {
           case Types.VARCHAR -> setter.invoke(newT, resultSet.getString(columnName));
           case Types.INTEGER -> setter.invoke(newT, resultSet.getInt(columnName));
           case Types.DATE -> {
-            switch (champ.getType().getName()) {
-              case "java.time.LocalDate" -> setter.invoke(
-                  newT, resultSet.getDate(columnName).toLocalDate());
-              default -> setter.invoke(newT, resultSet.getDate(columnName));
+            if (champ.getType().getName().equals("java.time.LocalDate")) {
+              setter.invoke(
+                newT, resultSet.getDate(columnName).toLocalDate());
+            } else {
+                setter.invoke(newT, resultSet.getDate(columnName));
             }
           }
           case Types.TIMESTAMP -> {
-            switch (champ.getType().getName()) {
-              case "java.time.Instant" -> setter.invoke(
-                  newT,
+            if (champ.getType().getName().equals("java.time.Instant")) {
+              setter.invoke(
+                newT,
                   (Optional.ofNullable(resultSet.getTimestamp(columnName))
-                      .orElse(Timestamp.valueOf(LocalDateTime.MIN))
-                      .toInstant()));
-              default -> setter.invoke(newT, resultSet.getTimestamp(columnName));
+                    .orElse(Timestamp.valueOf(LocalDateTime.MIN))
+                    .toInstant()));
+            } else {
+                setter.invoke(newT, resultSet.getTimestamp(columnName));
             }
           }
           case Types.BOOLEAN, Types.BIT -> setter.invoke(newT, resultSet.getBoolean(columnName));
@@ -157,12 +159,13 @@ public abstract class CRUDOperationImpl<T> {
                       + "'");
 
       while (resultSet.next()) {
-        return Optional.ofNullable(createT(resultSet));
+//        return Optional.ofNullable(createT(resultSet));
+        return Optional.of(createT(resultSet));
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
-    return null;
+    return Optional.empty();
   }
 
   public final Optional<T> getById(Object id) {
